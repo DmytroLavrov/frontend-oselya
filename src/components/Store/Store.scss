@@ -1,0 +1,19 @@
+@use '../../styles/mixins';
+
+.store {
+  margin-top: 60px;
+
+  &__grid {
+    display: flex;
+    gap: 24px;
+
+    @include mixins.media-sm {
+      flex-direction: column;
+      gap: 0px;
+    }
+  }
+  &__filter {
+  }
+  &__catalog {
+  }
+}

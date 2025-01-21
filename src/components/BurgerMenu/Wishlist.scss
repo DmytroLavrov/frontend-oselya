@@ -1,0 +1,25 @@
+.wishlist {
+  display: flex;
+  align-items: center;
+  // justify-content: space-between;
+  gap: 5px;
+
+  &__icon {
+    width: 24px;
+  }
+
+  &__quantity {
+    display: inline-block;
+
+    min-width: 20px;
+    line-height: 20px;
+    border-radius: 100%;
+    background-color: var(--cart-quantity-bg);
+
+    font-family: var(--font-third);
+    font-weight: 700;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+  }
+}

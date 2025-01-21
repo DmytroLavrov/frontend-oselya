@@ -1,0 +1,31 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+    font-family: var(--font-catalog);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 160%;
+    color: #000;
+  }
+  &__sort {
+    display: flex;
+
+    font-family: var(--font-catalog);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 162%;
+    color: #121212;
+
+    // &::after {
+    //   content: url('./chevron-down.svg');
+    //   margin-left: 4px;
+    //   vertical-align: text-top;
+    // }
+  }
+  // &__link {
+  //   color: #121212;
+  // }
+}

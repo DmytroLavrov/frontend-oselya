@@ -1,0 +1,25 @@
+@use '../../styles/mixins';
+
+.arrivals {
+  margin-top: 48px;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 48px;
+  }
+
+  &__slider {
+    @include mixins.media-sm {
+      margin-bottom: 40px;
+    }
+  }
+
+  .container-right {
+    @media (max-width: 1146px) {
+      padding-left: var(--container-padding);
+    }
+  }
+}

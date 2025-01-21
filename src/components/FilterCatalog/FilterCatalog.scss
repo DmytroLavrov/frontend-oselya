@@ -1,0 +1,69 @@
+@use '../../styles/mixins';
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+  max-width: clamp(202px, 8.339rem + 8.93vw, 262px);
+  width: 100%;
+  flex-grow: 1;
+
+  @include mixins.media-sm {
+    max-width: none;
+    padding-block: 16px;
+    border-top: 1px solid #e8ecef;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+
+    @include mixins.media-sm {
+      cursor: pointer;
+    }
+  }
+  &__icon {
+  }
+  &__title {
+    font-family: var(--font-filter);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 160%;
+    color: #121212;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    &.filter-hidden {
+      opacity: 0;
+      transform: translateY(-20px);
+      pointer-events: none;
+      overflow: hidden;
+      height: 0;
+    }
+
+    &.filter-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &__categories {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+  }
+
+  &__price {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+  }
+}

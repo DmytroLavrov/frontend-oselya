@@ -1,0 +1,248 @@
+@use '../../styles/mixins';
+
+.product {
+  @include mixins.media-lg {
+    padding-block: 16px;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+    row-gap: 16px;
+
+    @include mixins.media-lg {
+      flex-direction: column;
+    }
+  }
+
+  // media (gallery)
+  &__media {
+    max-width: 549px;
+    width: 100%;
+
+    @include mixins.media-lg {
+      max-width: 100%;
+    }
+  }
+  &__image {
+    position: relative;
+    padding-inline: 10px;
+    // DON'T DELETE
+    // background-color: #f3f5f7;
+    text-align: center;
+    // DON'T DELETE
+
+    // max-width: 549px;
+    // height: 729px;
+    height: 100%;
+
+    @include mixins.media-lg {
+      padding-block: 10%;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #000;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    img {
+      width: 70%;
+      height: 100%;
+      // max-height: 395px;
+      // height: 729px;
+      object-fit: contain;
+
+      @include mixins.media-lg {
+        width: 40%;
+      }
+
+      @include mixins.media-md {
+        width: 60%;
+      }
+
+      @include mixins.media-xs {
+        width: 80%;
+      }
+    }
+  }
+  &__details {
+    max-width: 508px;
+
+    @include mixins.media-lg {
+      max-width: 100%;
+    }
+  }
+
+  // info
+  &__info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    padding-bottom: 24px;
+
+    border-bottom: 1px solid #e8ecef;
+
+    font-family: var(--font-product-page);
+  }
+  &__rating-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 20px;
+
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 167%;
+    color: #141718;
+  }
+  &__rating {
+    height: 16px;
+  }
+  &__reviews {
+  }
+  &__title {
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 110%;
+    letter-spacing: -0.01em;
+    color: #141718;
+  }
+  &__description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 162%;
+    color: #6c7275;
+  }
+  &__price {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 121%;
+    letter-spacing: -0.02em;
+    color: #121212;
+
+    &::before {
+      content: attr(data-value);
+    }
+  }
+
+  // actions
+  &__actions {
+    display: grid;
+    gap: 16px;
+    padding-block: 32px;
+
+    border-bottom: 1px solid #e8ecef;
+
+    font-family: var(--font-product-page);
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: clamp(8px, 0.214rem + 1.43vw, 24px);
+    }
+  }
+  &__quantity {
+    border-radius: clamp(4px, 0.179rem + 0.36vw, 8px);
+    padding: clamp(6px, 0.268rem + 0.54vw, 12px)
+      clamp(8px, 0.357rem + 0.71vw, 16px);
+    width: 100%;
+    max-width: 127px;
+    // width: 127px;
+    // height: 52px;
+    background: #f5f5f5;
+
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 162%;
+    text-align: center;
+    color: #121212;
+  }
+  &__wishlist {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 1px solid #141718;
+    border-radius: clamp(4px, 0.179rem + 0.36vw, 8px);
+    padding: clamp(4px, 0.143rem + 0.54vw, 10px) 40px;
+    width: 100%;
+    max-width: 357px;
+
+    // width: 357px;
+    // height: 52px;
+
+    font-weight: 500;
+    font-size: clamp(14px, 0.804rem + 0.36vw, 18px);
+    line-height: 178%;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #141718;
+
+    @include mixins.media-lg {
+      max-width: 100%;
+    }
+
+    @include mixins.media-md {
+      line-height: 171%;
+      letter-spacing: normal;
+    }
+
+    img {
+      width: clamp(16px, 0.839rem + 0.8vw, 25px);
+    }
+  }
+  &__add-to-cart {
+    border-radius: clamp(4px, 0.179rem + 0.36vw, 8px);
+    padding: clamp(4px, 0.143rem + 0.54vw, 10px) 40px;
+    width: 100%;
+    // width: 508px;
+    // height: 52px;
+    background: #141718;
+
+    font-weight: 500;
+    font-size: clamp(14px, 0.804rem + 0.36vw, 18px);
+    line-height: 178%;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #fff;
+
+    @include mixins.media-md {
+      line-height: 171%;
+      letter-spacing: normal;
+    }
+  }
+
+  // meta
+  &__meta {
+    display: grid;
+    grid-template-columns: 123px 1fr;
+    row-gap: 8px;
+    padding-block: 24px;
+
+    font-family: var(--font-product-page);
+
+    &-label {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 167%;
+      color: #6c7275;
+    }
+
+    &-value {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 167%;
+      color: #141718;
+    }
+  }
+}

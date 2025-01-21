@@ -1,0 +1,75 @@
+@use '../../styles/mixins';
+
+.contact-form {
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 28px;
+
+    @include mixins.media-lg {
+      flex-direction: column-reverse;
+      row-gap: 24px;
+    }
+  }
+  &__content {
+    @include mixins.media-lg {
+      text-align: center;
+    }
+  }
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  &__label {
+    font-family: var(--font-third);
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 100%;
+    text-transform: uppercase;
+    color: #6c7275;
+  }
+  &__input {
+    border: 1px solid #cbcbcb;
+    border-radius: 6px;
+    padding: 0px 16px;
+    width: clamp(290px, 13.589rem + 22.68vw, 544px);
+    height: 40px;
+    background: #fff;
+
+    &--textarea {
+      padding: 16px;
+      height: 140px;
+    }
+
+    @include mixins.media-lg {
+      width: 100%;
+    }
+  }
+  &__submit-btn {
+    border-radius: 8px;
+    padding: 6px 40px;
+    background: #141718;
+
+    font-family: var(--font-third);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 175%;
+    letter-spacing: -0.03em;
+    text-align: center;
+    color: #fff;
+
+    @include mixins.media-lg {
+      margin: 0 auto;
+    }
+  }
+
+  &__map {
+    @include mixins.media-lg {
+      width: 100%;
+      height: clamp(290px, 13.58rem + 22.73vw, 450px);
+    }
+  }
+}

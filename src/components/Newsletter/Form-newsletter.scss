@@ -1,0 +1,35 @@
+.form-newsletter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid #afb3b5;
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    fill: #141718;
+  }
+
+  &__input {
+    flex-grow: 1;
+
+    font-family: var(--font-third);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 175%;
+    letter-spacing: -0.03em;
+
+    &::placeholder {
+      color: #6c7275;
+    }
+  }
+  &__submit {
+    font-family: var(--font-third);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 175%;
+    letter-spacing: -0.03em;
+    color: #6c7275;
+  }
+}

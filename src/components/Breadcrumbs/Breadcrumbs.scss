@@ -1,0 +1,38 @@
+.breadcrumbs {
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    &--centered {
+      justify-content: center;
+    }
+  }
+  &__item {
+    font-family: var(--font-third);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 171%;
+
+    &::after {
+      content: url('./chevron-right.svg');
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+  }
+  &__link {
+    color: #605f5f;
+  }
+}
+
+.breadcrumbs__item--last::after {
+  content: none;
+}
+
+.breadcrumbs__item--last .breadcrumbs__link {
+  color: #121212;
+}
+
+.breadcrumbs--product {
+  padding-block: 16px;
+}

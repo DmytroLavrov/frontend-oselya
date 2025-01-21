@@ -1,0 +1,249 @@
+@use '../../styles/mixins';
+
+.catalog {
+  .card {
+    position: relative;
+    // display: grid;
+    // gap: 12px;
+
+    // max-width: 262px;
+
+    &:hover {
+      .card__button {
+        transform: translateY(0%);
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    &__picture {
+      position: relative;
+      padding-inline: 10px;
+      // DON'T DELETE
+      // background-color: #f3f5f7;
+      text-align: center;
+      // DON'T DELETE
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #000;
+        opacity: 0.05;
+        pointer-events: none;
+      }
+    }
+    &__image {
+      width: 100%;
+      // height: 100%;
+      // max-height: 395px;
+      height: clamp(203px, 10.08rem + 13.04vw, 349px);
+      object-fit: contain;
+    }
+    &__new {
+      position: absolute;
+      top: clamp(12px, 0.464rem + 0.6vw, 16px);
+      left: clamp(12px, 0.464rem + 0.6vw, 16px);
+      padding: 4px 14px;
+      background-color: #fff;
+      border-radius: 4px;
+      color: #121212;
+      text-transform: uppercase;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 700;
+      z-index: 9;
+
+      @include mixins.media-md {
+        top: 16px;
+        left: 16px;
+      }
+
+      @include mixins.media-md {
+        top: clamp(12px, 0.464rem + 0.6vw, 16px);
+        left: clamp(12px, 0.464rem + 0.6vw, 16px);
+      }
+    }
+    &__button {
+      position: absolute;
+      z-index: 9;
+      left: clamp(12px, 0.464rem + 0.6vw, 16px);
+      bottom: clamp(12px, 0.464rem + 0.6vw, 16px);
+      right: clamp(12px, 0.464rem + 0.6vw, 16px);
+      transition: all 0.2s ease-in;
+      opacity: 0;
+      transform: translateY(50%);
+      pointer-events: none;
+
+      // 768px
+      .button-primary {
+        padding: clamp(4px, 0.161rem + 0.45vw, 9px)
+          clamp(26px, -1.804rem + 7.14vw, 74px);
+        width: 100%;
+
+        font-size: clamp(14px, 0.839rem + 0.18vw, 16px);
+
+        @include mixins.media-md {
+          padding-inline: clamp(34px, -7.25rem + 23.44vw, 64px);
+        }
+
+        @include mixins.media-sm {
+          padding: clamp(4px, 0.161rem + 0.45vw, 9px)
+            clamp(16px, 0.196rem + 4.02vw, 34px);
+        }
+      }
+
+      @include mixins.media-md {
+        left: 16px;
+        bottom: 16px;
+        right: 16px;
+      }
+
+      @include mixins.media-sm {
+        left: clamp(12px, 0.464rem + 0.6vw, 16px);
+        bottom: clamp(12px, 0.464rem + 0.6vw, 16px);
+        right: clamp(12px, 0.464rem + 0.6vw, 16px);
+      }
+    }
+    &__description {
+      display: grid;
+      gap: 4px;
+
+      padding-top: 12px;
+    }
+    &__rating {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    &__title {
+      font-family: var(--font-third);
+      font-weight: 600;
+      font-size: clamp(14px, 0.839rem + 0.18vw, 16px);
+      line-height: 162%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--card-product-title);
+      // white-space: nowrap;
+    }
+    &__price {
+      font-family: var(--font-third);
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 157%;
+      color: var(--card-product-price);
+
+      &::before {
+        content: attr(data-value);
+      }
+    }
+  }
+}
+
+.arrivals {
+  .card {
+    position: relative;
+    display: grid;
+    gap: 12px;
+
+    max-width: clamp(172.39px, 9.174rem + 8vw, 262px);
+
+    &:hover {
+      .card__button {
+        transform: translateY(0%);
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    &__picture {
+      position: relative;
+      padding-inline: 10px;
+      // DON'T DELETE
+      // background-color: #f3f5f7;
+      text-align: center;
+      // DON'T DELETE
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #000;
+        opacity: 0.05;
+        pointer-events: none;
+      }
+    }
+    &__image {
+      width: 100%;
+      height: clamp(269px, 15.384rem + 7.14vw, 349px);
+      object-fit: contain;
+    }
+    &__new {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 4px 14px;
+      background-color: #fff;
+      border-radius: 4px;
+      color: #121212;
+      text-transform: uppercase;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 700;
+      z-index: 9;
+    }
+    &__button {
+      position: absolute;
+      z-index: 9;
+      left: 16px;
+      bottom: 16px;
+      right: 16px;
+      transition: all 0.2s ease-in;
+      opacity: 0;
+      transform: translateY(50%);
+      pointer-events: none;
+
+      .button-primary {
+        padding: clamp(6px, 0.321rem + 0.27vw, 9px) 26px;
+      }
+    }
+    &__description {
+      display: grid;
+      gap: 4px;
+
+      // max-width: 262px;
+    }
+    &__rating {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    &__title {
+      font-family: var(--font-third);
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 162%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--card-product-title);
+    }
+    &__price {
+      font-family: var(--font-third);
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 157%;
+      color: var(--card-product-price);
+
+      &::before {
+        content: attr(data-value);
+      }
+    }
+  }
+}

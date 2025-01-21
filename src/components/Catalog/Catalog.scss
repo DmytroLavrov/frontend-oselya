@@ -1,0 +1,82 @@
+@use '../../styles/mixins';
+
+.catalog {
+  // display: grid;
+  // gap: 48px;
+
+  flex: 1;
+
+  @include mixins.media-sm {
+    max-width: none;
+    padding-top: 16px;
+    border-top: 1px solid #e8ecef;
+  }
+
+  &__toolbar {
+    margin-bottom: 48px;
+
+    @include mixins.media-sm {
+      margin-bottom: 64px;
+    }
+  }
+  &__products {
+    margin-bottom: clamp(32px, 1.143rem + 4.29vw, 80px);
+
+    // display: flex;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
+    // gap: 24px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    // 768px
+    gap: clamp(16px, 0.429rem + 1.19vw, 24px);
+
+    @include mixins.media-md {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mixins.media-sm {
+      column-gap: clamp(0.5rem, 0.143rem + 1.79vw, 1rem);
+      row-gap: 16px;
+    }
+
+    &.empty {
+      grid-template-columns: 1fr; // Make it a single column for the empty state
+      justify-items: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      min-height: 200px; // To give some height when empty
+    }
+  }
+  &__button {
+    display: block;
+    margin: 0 auto;
+
+    border: 1px solid #141718;
+    border-radius: 80px;
+    padding: 6px 40px;
+    width: 100%;
+    max-width: 173px;
+
+    font-family: var(--font-catalog);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 175%;
+    letter-spacing: -0.03em;
+    text-align: center;
+  }
+  &__empty {
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+    color: #666;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+  }
+
+  &__empty p {
+    // margin: 0;
+  }
+}

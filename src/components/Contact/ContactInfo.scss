@@ -1,0 +1,41 @@
+@use '../../styles/mixins';
+
+.contact-info {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 24px;
+
+    @include mixins.media-md {
+      grid-template-columns: repeat(1, 1fr);
+      row-gap: clamp(16px, 0.643rem + 1.79vw, 24px);
+    }
+  }
+  &__plate {
+    padding: 16px 32.33px;
+
+    background-color: var(--contact-info-plate-bg);
+    text-align: center;
+  }
+  &__content {
+    text-align: center;
+  }
+  &__icon {
+    margin-bottom: 16px;
+  }
+  &__title {
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    text-transform: uppercase;
+    color: #6c7275;
+  }
+  &__text {
+    font-family: var(--font-third);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 162%;
+    text-align: center;
+  }
+}

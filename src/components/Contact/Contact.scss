@@ -1,0 +1,16 @@
+.contact {
+  margin-top: 48px;
+
+  &__title {
+    line-height: 110%;
+    letter-spacing: -0.01em;
+    text-align: center;
+    color: #121212;
+  }
+  &__info {
+    margin-top: 40px;
+  }
+  &__form {
+    margin-top: 40px;
+  }
+}

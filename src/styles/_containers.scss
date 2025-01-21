@@ -1,0 +1,19 @@
+.container {
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+
+  max-width: var(--container-width);
+  width: 100%;
+}
+
+.container-left {
+  padding-right: calc(
+    (100% - var(--container-width)) / 2 + var(--container-padding)
+  );
+}
+
+.container-right {
+  padding-left: calc(
+    (100% - var(--container-width)) / 2 + var(--container-padding)
+  );
+}

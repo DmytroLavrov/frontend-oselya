@@ -1,0 +1,46 @@
+@use '../../styles/mixins';
+
+.newsletter {
+  margin-top: 48px;
+  padding: 95px 0;
+
+  background-image: url(./newsletter-bg.jpg);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: var(--newsletter-bg);
+  text-align: center;
+
+  @include mixins.media-lg {
+    background-image: none;
+    background-color: var(--newsletter-bg);
+  }
+
+  &__content {
+    max-width: 488px;
+    margin: 0 auto;
+
+    @include mixins.media-sm {
+      padding: 0 8px;
+    }
+  }
+
+  &__title {
+    margin-bottom: 8px;
+    line-height: 110%;
+    letter-spacing: -0.01em;
+    text-align: center;
+  }
+  &__description {
+    margin-bottom: 32px;
+    font-family: var(--font-third);
+    font-weight: 400;
+    font-size: clamp(14px, 0.804rem + 0.36vw, 18px);
+    line-height: 167%;
+    text-align: center;
+
+    @include mixins.media-md {
+      line-height: 157%;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@use '../../styles/mixins';
+
+.values {
+  margin-top: 48px;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 24px;
+
+    @include mixins.media-md {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 24px;
+      column-gap: clamp(8px, -0.214rem + 3.57vw, 24px);
+    }
+  }
+}
+
+.contact-us-values {
+  margin-top: 80px;
+  background-color: #f3f5f7;
+  padding: 16px 0;
+
+  @include mixins.media-sm {
+    margin-top: 40px;
+    padding: 32px 0;
+  }
+}

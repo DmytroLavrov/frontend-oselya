@@ -1,0 +1,29 @@
+@use '../../styles/mixins';
+
+.arrow-link {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  border-bottom: 1px solid #121212;
+
+  font-family: var(--font-third);
+  font-weight: 500;
+  font-size: clamp(14px, 0.839rem + 0.18vw, 16px);
+  line-height: 175%;
+  letter-spacing: -0.03em;
+  color: #141718;
+
+  svg {
+    width: 20px;
+    height: 20px;
+
+    // path {
+    //   stroke-width: 1.25px;
+    // }
+  }
+
+  @include mixins.media-md {
+    line-height: 171%;
+    letter-spacing: normal;
+  }
+}

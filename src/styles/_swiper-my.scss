@@ -1,0 +1,69 @@
+@use './mixins';
+
+.hero {
+  .swiper-pagination-bullet {
+    background-color: #fefefe;
+    opacity: 100%;
+    margin: 0 8px !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    width: 30px;
+    border-radius: 100px;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 100px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.04);
+    background: #fff;
+
+    &:after {
+      content: none;
+    }
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .swiper-button-prev.swiper-button-disabled,
+  .swiper-button-next.swiper-button-disabled {
+    opacity: 100%;
+  }
+  .swiper-button-prev.swiper-button-disabled svg path,
+  .swiper-button-next.swiper-button-disabled svg path {
+    stroke: #6c7275;
+  }
+
+  .swiper-button-prev {
+    left: 32px;
+  }
+
+  .swiper-button-next {
+    right: 32px;
+  }
+
+  @include mixins.media-md {
+    .swiper-button-prev,
+    .swiper-button-next {
+      display: none;
+    }
+  }
+}
+
+.arrivals {
+  .swiper-slide {
+    max-width: clamp(202px, 11.554rem + 5.36vw, 262px) !important;
+    width: auto !important;
+  }
+
+  .swiper-scrollbar {
+    position: static !important;
+    margin-top: 40px !important;
+  }
+}

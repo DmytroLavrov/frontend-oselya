@@ -1,0 +1,133 @@
+@use '../../styles/mixins';
+
+.footer {
+  // margin-top: auto;
+  // padding: 80px 160px 32px 160px;
+  padding: 80px 0 32px;
+  background-color: var(--footer-bg);
+
+  @include mixins.media-md {
+    padding: 48px 0 48px;
+    background-color: #232627;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding-bottom: 49px;
+
+    @include mixins.media-md {
+      flex-direction: column;
+      gap: 40px;
+    }
+  }
+  &__title {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    // flex-shrink: 0;
+
+    @include mixins.media-md {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+  &__logo {
+    height: 24px;
+
+    // a {
+    //   color: #fff;
+    // }
+  }
+  &__separator {
+    background: #6c7275;
+    // flex-shrink: 0;
+    width: 1px;
+    height: 24px;
+
+    @include mixins.media-md {
+      transform: rotate(-90deg);
+    }
+  }
+  &__slogan {
+    font-family: var(--font-third);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 157%;
+    color: #e8ecef;
+  }
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+
+    @include mixins.media-md {
+      flex-direction: column;
+      gap: 32px;
+    }
+  }
+  &__item {
+    font-family: var(--font-third);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 157%;
+
+    a {
+      color: #fefefe;
+    }
+  }
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    padding-top: 16px;
+    padding-bottom: 20px;
+    border-top: 0.5px solid #6c7275;
+
+    @include mixins.media-md {
+      flex-direction: column-reverse;
+      gap: 32px;
+    }
+  }
+  &__legal {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+
+    @include mixins.media-md {
+      flex-direction: column-reverse;
+    }
+  }
+  &__copyright {
+    // font-family: var(--font-main);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 167%;
+    color: #e8ecef;
+  }
+  &__links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 167%;
+
+    a {
+      color: #fefefe;
+    }
+  }
+  // &__language {
+  // }
+  &__socials {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+}

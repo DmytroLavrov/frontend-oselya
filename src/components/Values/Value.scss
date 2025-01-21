@@ -1,0 +1,36 @@
+@use '../../styles/mixins';
+
+.value {
+  padding: clamp(32px, 1.714rem + 1.43vw, 48px)
+    clamp(16px, 0.714rem + 1.43vw, 32px);
+  background-color: var(--value-bg);
+
+  @include mixins.media-md {
+    text-align: center;
+  }
+
+  &__image {
+    margin-bottom: 16px;
+  }
+  &__title {
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: clamp(14px, 0.768rem + 0.54vw, 20px);
+    line-height: 140%;
+
+    @include mixins.media-md {
+      line-height: 157%;
+    }
+  }
+  &__description {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 171%;
+    color: #6c7275;
+
+    @include mixins.media-md {
+      font-family: var(--font-second);
+      line-height: 157%;
+    }
+  }
+}
