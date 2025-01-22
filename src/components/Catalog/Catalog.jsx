@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { sortProducts } from '@utils/FilterAndSortCatalog';
+
 import ProductCard from '@components/ProductCard/ProductCard';
 import SortCatalog from '@components/SortCatalog/SortCatalog';
 
@@ -18,23 +20,7 @@ const Catalog = ({
     setSorterValue(key);
   };
 
-  const sortedProducts = () => {
-    if (!sorterValue) return products;
-
-    const sorted = [...products];
-    switch (sorterValue) {
-      case 'bestRating':
-        return sorted.sort((a, b) => b.ratingValue - a.ratingValue);
-      case 'worstRating':
-        return sorted.sort((a, b) => a.ratingValue - b.ratingValue);
-      case 'highPrice':
-        return sorted.sort((a, b) => b.priceCents - a.priceCents);
-      case 'lowPrice':
-        return sorted.sort((a, b) => a.priceCents - b.priceCents);
-      default:
-        return products;
-    }
-  };
+  const sortedProducts = sortProducts(products, sorterValue);
 
   return (
     <div className="store__catalog catalog">
@@ -47,11 +33,9 @@ const Catalog = ({
       <div
         className={`catalog__products${products.length === 0 ? ' empty' : ''}`}
       >
-        {sortedProducts()
-          .slice(0, visibleCount)
-          .map((product) => {
-            return <ProductCard key={product.id} product={product} />;
-          })}
+        {sortedProducts.slice(0, visibleCount).map((product) => {
+          return <ProductCard key={product.id} product={product} />;
+        })}
 
         {products.length === 0 && (
           <div className="catalog__empty">

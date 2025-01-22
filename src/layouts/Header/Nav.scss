@@ -51,8 +51,8 @@
     gap: 16px;
   }
   &__profile-btn {
-    padding: 2px 16px;
-    width: auto;
+    padding: 2px 16px !important;
+    width: auto !important;
 
     @include mixins.media-md {
       display: none;

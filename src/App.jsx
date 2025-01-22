@@ -13,6 +13,8 @@ import ScrollToTop from '@utils/ScrollToTop';
 
 import './App.scss';
 
+export const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
 

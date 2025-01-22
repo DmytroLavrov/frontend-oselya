@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useResponsive } from '@hooks/useResponsive';
+
 import filterIcon from './filter.svg';
 
 import './FilterCatalog.scss';
@@ -15,17 +17,7 @@ const FilterCatalog = ({
   handlePriceChange,
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 640);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const isSmallScreen = useResponsive(640);
 
   const handleHeaderClick = () => {
     if (isSmallScreen) {
