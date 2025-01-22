@@ -1,27 +1,14 @@
-import { useState } from 'react';
-
-import products from '@backend/products.json';
-
+import { useShopContext } from '@context/StoreContext';
 import { filterProducts } from '@utils/FilterAndSortCatalog';
+import products from '@backend/products.json';
 
 import FilterCatalog from '@components/FilterCatalog/FilterCatalog';
 import Catalog from '@components/Catalog/Catalog';
 
-import { categories, priceRanges } from '@assets/assets';
-
 import './Store.scss';
 
 const Store = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all-rooms');
-  const [selectedPriceRange, setSelectedPriceRange] = useState('');
-  const [visibleCount, setVisibleCount] = useState(9);
-
-  const handleCategoryChange = (categoryId) => setSelectedCategory(categoryId);
-
-  const handlePriceChange = (priceValue) =>
-    setSelectedPriceRange((prev) => (prev === priceValue ? '' : priceValue));
-
-  const handleShowMore = () => setVisibleCount((prev) => prev + 9);
+  const { selectedCategory, selectedPriceRange, categories } = useShopContext();
 
   const selectedCategoryLabel = () =>
     categories.find((category) => category.id === selectedCategory)?.label ||
@@ -34,18 +21,9 @@ const Store = () => {
     <section className="store">
       <div className="container">
         <div className="store__grid">
-          <FilterCatalog
-            categories={categories}
-            selectedCategory={selectedCategory}
-            handleCategoryChange={handleCategoryChange}
-            priceRanges={priceRanges}
-            selectedPriceRange={selectedPriceRange}
-            handlePriceChange={handlePriceChange}
-          />
+          <FilterCatalog />
           <Catalog
             products={filteredProducts()}
-            visibleCount={visibleCount}
-            handleShowMore={handleShowMore}
             selectedCategoryLabel={selectedCategoryLabel}
           />
         </div>

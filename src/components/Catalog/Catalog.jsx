@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { useShopContext } from '@context/StoreContext';
 import { sortProducts } from '@utils/FilterAndSortCatalog';
 
 import ProductCard from '@components/ProductCard/ProductCard';
@@ -8,12 +8,9 @@ import SortCatalog from '@components/SortCatalog/SortCatalog';
 import './Catalog.scss';
 import './Toolbar.scss';
 
-const Catalog = ({
-  products,
-  visibleCount,
-  handleShowMore,
-  selectedCategoryLabel,
-}) => {
+const Catalog = ({ products, selectedCategoryLabel }) => {
+  const { visibleCount, handleShowMore } = useShopContext();
+
   const [sorterValue, setSorterValue] = useState('bestRating');
 
   const handleSort = (key) => {

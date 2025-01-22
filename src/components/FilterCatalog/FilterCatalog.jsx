@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
-
+import { useState } from 'react';
+import { useShopContext } from '@context/StoreContext';
 import { useResponsive } from '@hooks/useResponsive';
 
 import filterIcon from './filter.svg';
-
 import './FilterCatalog.scss';
 import './Categories.scss';
 import './Price.scss';
 
-const FilterCatalog = ({
-  categories,
-  selectedCategory,
-  handleCategoryChange,
-  priceRanges,
-  selectedPriceRange,
-  handlePriceChange,
-}) => {
+const FilterCatalog = () => {
+  const {
+    categories,
+    priceRanges,
+    selectedCategory,
+    selectedPriceRange,
+    handleCategoryChange,
+    handlePriceChange,
+  } = useShopContext(); // Using the new Store context
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const isSmallScreen = useResponsive(640);
 
@@ -43,41 +44,37 @@ const FilterCatalog = ({
         <div className="filter__categories categories">
           <h4 className="categories__title">CATEGORIES</h4>
           <ul className="categories__list">
-            {categories.map((category) => {
-              return (
-                <li
-                  className={`categories__item${
-                    category.id === selectedCategory ? ' active' : ''
-                  }`}
-                  key={category.id}
-                >
-                  <span onClick={() => handleCategoryChange(category.id)}>
-                    {category.label}
-                  </span>
-                </li>
-              );
-            })}
+            {categories.map((category) => (
+              <li
+                className={`categories__item${
+                  category.id === selectedCategory ? ' active' : ''
+                }`}
+                key={category.id}
+              >
+                <span onClick={() => handleCategoryChange(category.id)}>
+                  {category.label}
+                </span>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="filter__price price">
           <h4 className="price__title">PRICE</h4>
           <ul className="price__list">
-            {priceRanges.map((range) => {
-              return (
-                <li className="price__item" key={range.id}>
-                  <label className="price__label">
-                    <span className="price__text">{range.label}</span>
-                    <input
-                      type="checkbox"
-                      className="price__input"
-                      value={range.value}
-                      checked={selectedPriceRange === range.value}
-                      onChange={() => handlePriceChange(range.value)}
-                    />
-                  </label>
-                </li>
-              );
-            })}
+            {priceRanges.map((range) => (
+              <li className="price__item" key={range.id}>
+                <label className="price__label">
+                  <span className="price__text">{range.label}</span>
+                  <input
+                    type="checkbox"
+                    className="price__input"
+                    value={range.value}
+                    checked={selectedPriceRange === range.value}
+                    onChange={() => handlePriceChange(range.value)}
+                  />
+                </label>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

@@ -1,16 +1,15 @@
+import { StoreProvider } from '@context/StoreContext';
 import ShopGreeting from '@components/ShopGreeting/ShopGreeting';
 import Store from '@components/Store/Store';
-import Products from '@components/Products/Products';
 import Newsletter from '@components/Newsletter/Newsletter';
 
 const Shop = () => {
   return (
-    <>
+    <StoreProvider>
       <ShopGreeting />
-      {/* <Store /> */}
-      <Products />
+      <Store />
       <Newsletter />
-    </>
+    </StoreProvider>
   );
 };
 
