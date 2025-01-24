@@ -50,12 +50,20 @@
     // justify-content: space-between;
     gap: 16px;
   }
+  &__icon-link {
+    &--profile,
+    &--cart {
+      @include mixins.media-md {
+        display: none;
+      }
+    }
+  }
   &__profile-btn {
     padding: 2px 16px !important;
     width: auto !important;
 
     @include mixins.media-md {
-      display: none;
+      display: none !important;
     }
   }
 }

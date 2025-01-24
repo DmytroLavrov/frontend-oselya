@@ -7,7 +7,7 @@ export const useShopContext = () => useContext(StoreContext);
 
 export const StoreProvider = ({ children }) => {
   // Filter state and functions
-  const [selectedCategory, setSelectedCategory] = useState('all-rooms');
+  const [selectedCategory, setSelectedCategory] = useState('All Rooms');
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
 
   const handleCategoryChange = (categoryId) => setSelectedCategory(categoryId);

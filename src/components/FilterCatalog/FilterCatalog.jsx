@@ -47,11 +47,11 @@ const FilterCatalog = () => {
             {categories.map((category) => (
               <li
                 className={`categories__item${
-                  category.id === selectedCategory ? ' active' : ''
+                  category.label === selectedCategory ? ' active' : ''
                 }`}
-                key={category.id}
+                key={category.label}
               >
-                <span onClick={() => handleCategoryChange(category.id)}>
+                <span onClick={() => handleCategoryChange(category.label)}>
                   {category.label}
                 </span>
               </li>

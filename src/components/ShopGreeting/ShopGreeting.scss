@@ -13,8 +13,6 @@
     background-color: var(--shop-greeting-bg);
   }
   &__title {
-    font-weight: 500;
-    font-size: clamp(40px, 2.25rem + 1.25vw, 54px);
     line-height: 107%;
     letter-spacing: -0.02em;
   }

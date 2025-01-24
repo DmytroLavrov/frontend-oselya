@@ -53,20 +53,21 @@
     span {
       font-weight: 600;
       color: #38cb89;
+      cursor: pointer;
     }
   }
   &__content {
     font-family: var(--font-popup);
   }
   &__form {
-    margin-bottom: 32px;
+    // margin-bottom: 32px;
   }
   &__field {
     margin-bottom: 32px;
 
-    &:last-of-type {
-      margin-bottom: 0;
-    }
+    // &:last-of-type {
+    //   margin-bottom: 0;
+    // }
   }
   &__input {
     font-weight: 400;

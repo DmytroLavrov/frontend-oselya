@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import products from '@backend/products.json';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '@features/products/productSlice';
+
+// import products from '@backend/products.json';
 
 import ArrowLink from '@components/ArrowLink/ArrowLink';
 import ProductCard from '@components/ProductCard/ProductCard';
@@ -18,10 +21,13 @@ import { Scrollbar } from 'swiper/modules';
 import './Arrivals.scss';
 
 const Arrivals = () => {
+  const dispatch = useDispatch();
+  const { loading, items, error } = useSelector((state) => state.product);
   const [spaceBetween, setSpaceBetween] = useState(24);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    dispatch(fetchProducts());
     const handleResize = () => {
       if (window.innerWidth < 640) {
         setSpaceBetween(16);
@@ -39,7 +45,11 @@ const Arrivals = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const limitedProducts = products.sort((a, b) => b.id - a.id).slice(0, 6);
+  // const limitedProducts = items.sort((a, b) => b.id - a.id).slice(0, 6);
+
+  const limitedProducts = [...items]
+    .sort((a, b) => b._id.toString().localeCompare(a._id.toString()))
+    .slice(0, 6);
 
   return (
     <section className="arrivals">
@@ -65,7 +75,7 @@ const Arrivals = () => {
             // onSlideChange={() => console.log('slide change')}
           >
             {limitedProducts.map((product) => (
-              <SwiperSlide key={product.id}>
+              <SwiperSlide key={product._id}>
                 <ProductCard product={product} />
               </SwiperSlide>
             ))}

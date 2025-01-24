@@ -62,3 +62,9 @@ body {
   font-weight: 500;
   font-family: var(--font-main);
 }
+
+.title-2 {
+  font-size: clamp(40px, 2.25rem + 1.25vw, 54px);
+  font-weight: 500;
+  font-family: var(--font-main);
+}

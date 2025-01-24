@@ -8,9 +8,23 @@ const ScrollToTop = () => {
   //   window.scrollTo(0, 0);
   // }, [location]);
 
+  // useEffect(() => {
+  //   document.documentElement.scrollTop = 0;
+  // }, [location]);
+
+  // useEffect(() => {
+  //   console.log('ScrollToTop triggered');
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: 'smooth',
+  //   });
+  // }, [location]);
+
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    document.documentElement.scrollTop = 0;
-  }, [location]);
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return null;
 };

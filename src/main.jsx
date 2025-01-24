@@ -1,6 +1,7 @@
-import { StrictMode } from 'react';
+import { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import Preloader from '@components/Preloader/Preloader';
 import store from './app/store.js';
 import './global.scss';
 import App from './App.jsx';

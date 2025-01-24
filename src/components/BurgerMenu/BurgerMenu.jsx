@@ -1,16 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from '@features/users/userSlice';
+
 import disableScroll from 'disable-scroll';
 
 import cartIcon from './cart.svg';
 import heartIcon from '@assets/images/wishlist/heart.svg';
+import userIcon from './user-circle.svg';
 
 import './Mobile-nav.scss';
 import './Nav-icon.scss';
 import './Wishlist.scss';
 
 const BurgerMenu = ({ setShowLogin }) => {
+  const isAuth = useSelector(selectIsAuth);
+
   const [isBurgerClass, setIsBurgerClass] = useState(false);
 
   const toggleBurgerClass = () => {
@@ -98,15 +104,26 @@ const BurgerMenu = ({ setShowLogin }) => {
               </div>
             </div>
           </Link>
-          <button
-            className="button-primary"
-            onClick={() => {
-              closeMenu();
-              setShowLogin((prev) => !prev);
-            }}
-          >
-            Sign in
-          </button>
+          {isAuth ? (
+            <Link className="mobile-nav__btn" to="/profile" onClick={closeMenu}>
+              <span className="mobile-nav__btn-text">Profile</span>
+              <div className="mobile-nav__btn-icons">
+                <div className="user">
+                  <img src={userIcon} alt="user-icon" className="user__icon" />
+                </div>
+              </div>
+            </Link>
+          ) : (
+            <button
+              className="button-primary"
+              onClick={() => {
+                closeMenu();
+                setShowLogin((prev) => !prev);
+              }}
+            >
+              Sign in
+            </button>
+          )}
         </div>
       </div>
     </>

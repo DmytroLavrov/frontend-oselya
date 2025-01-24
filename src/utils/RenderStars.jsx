@@ -1,7 +1,10 @@
 import starIcon from '@assets/images/rating/star.svg';
 
 const renderStars = (ratingValue) => {
+  // const fullStars = Math.max(0, Math.min(5, Math.round(ratingValue)));
+
   const fullStars = Math.round(ratingValue);
+
   // const halfStar = ratingValue % 1 >= 0.5 ? 1 : 0;
   // const emptyStars = 5 - fullStars - halfStar;
 

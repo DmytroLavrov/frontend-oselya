@@ -6,13 +6,21 @@ const SortCatalog = ({ handleSort }) => {
   const sortMenu = {
     items: [
       {
-        label: <a onClick={() => handleSort('bestRating')}>Best Rating</a>,
-        key: 'bestRating',
+        label: <a onClick={() => handleSort('newest')}>Newest</a>, // додано сортування по даті
+        key: 'newest',
       },
       {
-        label: <a onClick={() => handleSort('worstRating')}>Worst Rating</a>,
-        key: 'worstRating',
+        label: <a onClick={() => handleSort('oldest')}>Oldest</a>, // додано сортування по даті
+        key: 'oldest',
       },
+      // {
+      //   label: <a onClick={() => handleSort('bestRating')}>Best Rating</a>,
+      //   key: 'bestRating',
+      // },
+      // {
+      //   label: <a onClick={() => handleSort('worstRating')}>Worst Rating</a>,
+      //   key: 'worstRating',
+      // },
       {
         label: <a onClick={() => handleSort('highPrice')}>Highest Price</a>,
         key: 'highPrice',

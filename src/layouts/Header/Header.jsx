@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from '@features/users/userSlice';
+
 import Logo from './logo.svg';
 import BurgerMenu from '@components/BurgerMenu/BurgerMenu';
 import searchIcon from './search.svg';
@@ -12,6 +15,8 @@ import './Nav.scss';
 import './Cart.scss';
 
 const Header = ({ setShowLogin }) => {
+  const isAuth = useSelector(selectIsAuth);
+
   const [menu, setMenu] = useState('home');
   const location = useLocation();
 
@@ -83,24 +88,26 @@ const Header = ({ setShowLogin }) => {
             <div className="search-icon">
               <img src={searchIcon} alt="search-icon" />
             </div>
-            {/* <Link to={'/registration'} className="btn-profile">
-              <div className="user-icon">
-                <img src={userIcon} alt="user-icon" />
-              </div>
-              <button className="nav__profile-btn button-primary">
-                Sign up
+
+            {isAuth ? (
+              <Link
+                to="/profile"
+                className="nav__icon-link nav__icon-link--profile"
+              >
+                <div className="user-icon">
+                  <img src={userIcon} alt="user-icon" />
+                </div>
+              </Link>
+            ) : (
+              <button
+                className="nav__profile-btn button-primary"
+                onClick={() => setShowLogin((prev) => !prev)}
+              >
+                Sign Up
               </button>
-            </Link> */}
-            {/* <div className="user-icon">
-                <img src={userIcon} alt="user-icon" />
-              </div> */}
-            <button
-              className="nav__profile-btn button-primary"
-              onClick={() => setShowLogin((prev) => !prev)}
-            >
-              Sign Up
-            </button>
-            <Link to={'/cart'}>
+            )}
+
+            <Link to={'/cart'} className="nav__icon-link  nav__icon-link--cart">
               <div className="nav__cart cart">
                 <img src={cartIcon} alt="cart-icon" className="cart__icon" />
                 <div className="cart__quantity">2</div>

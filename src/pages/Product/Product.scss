@@ -5,6 +5,11 @@
     padding-block: 16px;
   }
 
+  &__loading {
+    text-align: center;
+    min-height: 100vh;
+  }
+
   &__content {
     display: flex;
     justify-content: space-between;

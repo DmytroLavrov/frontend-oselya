@@ -11,7 +11,8 @@ import './Toolbar.scss';
 const Catalog = ({ products, selectedCategoryLabel }) => {
   const { visibleCount, handleShowMore } = useShopContext();
 
-  const [sorterValue, setSorterValue] = useState('bestRating');
+  // const [sorterValue, setSorterValue] = useState('bestRating');
+  const [sorterValue, setSorterValue] = useState('newest');
 
   const handleSort = (key) => {
     setSorterValue(key);
@@ -31,7 +32,7 @@ const Catalog = ({ products, selectedCategoryLabel }) => {
         className={`catalog__products${products.length === 0 ? ' empty' : ''}`}
       >
         {sortedProducts.slice(0, visibleCount).map((product) => {
-          return <ProductCard key={product.id} product={product} />;
+          return <ProductCard key={product._id} product={product} />;
         })}
 
         {products.length === 0 && (
