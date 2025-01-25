@@ -13,6 +13,7 @@ import userIcon from './user-circle.svg';
 import './Mobile-nav.scss';
 import './Nav-icon.scss';
 import './Wishlist.scss';
+import './Cart-icon.scss';
 
 const BurgerMenu = ({ setShowLogin }) => {
   const isAuth = useSelector(selectIsAuth);
@@ -85,9 +86,13 @@ const BurgerMenu = ({ setShowLogin }) => {
           <Link className="mobile-nav__btn" to="/cart" onClick={closeMenu}>
             <span className="mobile-nav__btn-text">Cart</span>
             <div className="mobile-nav__btn-icons">
-              <div className="cart">
-                <img src={cartIcon} alt="cart-icon" className="cart__icon" />
-                <div className="cart__quantity">2</div>
+              <div className="cart-icon">
+                <img
+                  src={cartIcon}
+                  alt="cart-icon"
+                  className="cart-icon__icon"
+                />
+                <div className="cart-icon__quantity">2</div>
               </div>
             </div>
           </Link>

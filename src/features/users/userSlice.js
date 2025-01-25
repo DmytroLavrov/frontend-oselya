@@ -28,7 +28,8 @@ export const getMe = createAsyncThunk('user/getMe', async () => {
 
   const { data } = await axios.get(backendUrl + '/auth/me', {
     headers: {
-      Authorization: `Bearer ${token}`,
+      // Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
   return data;

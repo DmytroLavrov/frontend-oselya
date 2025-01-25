@@ -12,7 +12,9 @@ import cartIcon from './cart.svg';
 
 import './Header.scss';
 import './Nav.scss';
-import './Cart.scss';
+// import './Cart.scss';
+
+import styles from './Cart.module.scss';
 
 const Header = ({ setShowLogin }) => {
   const isAuth = useSelector(selectIsAuth);
@@ -108,9 +110,13 @@ const Header = ({ setShowLogin }) => {
             )}
 
             <Link to={'/cart'} className="nav__icon-link  nav__icon-link--cart">
-              <div className="nav__cart cart">
-                <img src={cartIcon} alt="cart-icon" className="cart__icon" />
-                <div className="cart__quantity">2</div>
+              <div className={`nav__cart ${styles.cart}`}>
+                <img
+                  src={cartIcon}
+                  alt="cart-icon"
+                  className={styles.cart__icon}
+                />
+                <div className={styles.cart__quantity}>2</div>
               </div>
             </Link>
             <BurgerMenu setShowLogin={setShowLogin} />

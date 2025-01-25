@@ -57,6 +57,7 @@ body {
   width: 100%;
 }
 
+// titles
 .title-1 {
   font-size: clamp(34px, 2.018rem + 0.54vw, 40px);
   font-weight: 500;
@@ -67,4 +68,51 @@ body {
   font-size: clamp(40px, 2.25rem + 1.25vw, 54px);
   font-weight: 500;
   font-family: var(--font-main);
+}
+
+// custom-radio
+.real-radio {
+  width: 0;
+  height: 0;
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.custom-radio {
+  position: relative;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 100px;
+  border: 1px solid #121212;
+  vertical-align: text-top;
+
+  margin-right: 12px;
+}
+
+.custom-radio::before {
+  content: '';
+
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+
+  border-radius: 100%;
+  background-color: #121212;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+
+  transition: 0.2s ease-in;
+
+  // display: none;
+}
+
+.real-radio:checked + .custom-radio::before {
+  // display: block;
+  transform: translate(-50%, -50%) scale(1);
 }

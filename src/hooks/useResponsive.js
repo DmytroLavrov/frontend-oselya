@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 
 export const useResponsive = (breakpoint = 640) => {
   const [isSmallScreen, setIsSmallScreen] = useState(
-    window.innerWidth < breakpoint
+    window.innerWidth <= breakpoint
   );
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < breakpoint);
+      setIsSmallScreen(window.innerWidth <= breakpoint);
     };
 
     window.addEventListener('resize', handleResize);
