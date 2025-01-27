@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsAuth } from '@features/users/userSlice';
+import { addToCart } from '@features/cart/cartSlice';
+
+import { useLoginContext } from '@context/LoginContext';
+
 import axios from 'axios';
 
 // import products from '@backend/products.json';
@@ -12,14 +19,43 @@ import renderStars from '@utils/RenderStars';
 import formatCurrency from '@utils/FormatCurrency';
 
 import heartIcon from '@assets/images/wishlist/heart.svg';
+import minusIcon from '@assets/icons/minus-icon.svg';
+import addIcon from '@assets/icons/add-icon.svg';
 
 import './Product.scss';
 
 const Product = () => {
+  const { setShowLogin } = useLoginContext();
+
+  const [productCount, setProductCount] = useState(1);
+
+  const isAuth = useSelector(selectIsAuth);
+
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // add product to cart
+  const dispatch = useDispatch();
+  // const isAuth = useSelector(selectIsAuth);
+
+  const handleAddToCart = async (itemId) => {
+    if (product) {
+      // або з Redux
+
+      dispatch(
+        addToCart({
+          // userId: '678e4b57b54c3b135f2705e4',
+          itemId,
+          quantity: productCount,
+          // name: product.name,
+          // price: product.price,
+          // quantity: 1,
+        })
+      );
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -108,14 +144,54 @@ const Product = () => {
                   </div>
                 </div>
                 <div className="product__actions">
-                  <div>
-                    <button className="product__quantity">Quantity</button>
+                  <div className="product__actions-top">
+                    <div className="product__quantity">
+                      <button
+                        onClick={() =>
+                          setProductCount((prev) => Math.max(1, prev - 1))
+                        }
+                      >
+                        <img src={minusIcon} alt="minus-icon" />
+                      </button>
+                      {/* <span className="product__count">99</span> */}
+                      <input
+                        type="number"
+                        value={productCount}
+                        onChange={(e) => setProductCount(e.target.value)}
+                        min="1"
+                        max="99"
+                        className="product__count"
+                      />
+                      <button
+                        onClick={() =>
+                          setProductCount((prev) => Math.min(99, prev + 1))
+                        }
+                      >
+                        <img src={addIcon} alt="add-icon" />
+                      </button>
+                    </div>
                     <button className="product__wishlist">
                       <img src={heartIcon} alt="heart-icon" />
                       Wishlist
                     </button>
                   </div>
-                  <button className="product__add-to-cart">Add to Cart</button>
+                  <div className="product__actions-bottom">
+                    {isAuth ? (
+                      <button
+                        onClick={() => handleAddToCart(product._id)}
+                        className="product__add-to-cart"
+                      >
+                        Add to Cart
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setShowLogin((prev) => !prev)}
+                        className="product__add-to-cart"
+                      >
+                        Add to Cart
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="product__meta">
                   <span className="product__meta-label">SKU:</span>

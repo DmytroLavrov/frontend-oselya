@@ -1,17 +1,17 @@
 @use '../../styles/mixins';
 
 .cart {
-  margin-block: 80px;
+  margin-block: clamp(40px, 1.786rem + 3.57vw, 80px);
 
   &__title {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: clamp(24px, 1.214rem + 1.43vw, 40px);
   }
 
   &__steps {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    column-gap: clamp(16px, 0.198rem + 2vw, 32px);
+    gap: clamp(16px, 0.198rem + 2vw, 32px);
 
     max-width: 832px;
     margin: 0 auto;
@@ -25,44 +25,69 @@
     @include mixins.media-sm {
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      // gap: 32px;
     }
   }
   &__step {
-    padding-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 17px;
+
+    padding-bottom: clamp(12px, 0.536rem + 1.07vw, 24px);
 
     font-family: var(--font-cart-step);
     font-weight: 600;
     font-size: 16px;
     line-height: 162%;
-    color: var(--cart-step-circle);
+    color: var(--cart-step);
+
+    &-circle {
+      // display: inline-block;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--cart-step);
+      // padding: 8px 17px;
+      width: 42px;
+      height: 42px;
+      border-radius: 40px;
+      // margin-right: 17px;
+
+      font-family: var(--font-cart-step);
+      color: var(--cart-step-circle-color);
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 162%;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &-title {
+    }
 
     &--active {
-      border-bottom: 2px solid #141718;
-      color: var(--cart-step-color);
+      border-bottom: 2px solid var(--cart-step-active);
+      color: var(--cart-step-active);
     }
 
     &--active .cart__step-circle {
-      border-bottom: 2px solid #141718;
-      background-color: var(--cart-step-circle-bg);
-      color: var(--cart-step-circle-color);
+      background-color: var(--cart-step-active);
+      // color: var(--cart-step-circle-color);
     }
-  }
-  &__step-circle {
-    display: inline-block;
-    background-color: var(--cart-step-circle);
-    padding: 8px 17px;
-    width: 42px;
-    height: 42px;
-    border-radius: 40px;
-    margin-right: 17px;
 
-    font-family: var(--font-cart-step);
-    color: var(--cart-step-circle-color);
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 162%;
+    &--completed {
+      // background-color: #4caf50;
+      border-bottom: 2px solid var(--cart-step-completed);
+      color: var(--cart-step-completed);
+    }
+
+    &--completed .cart__step-circle {
+      background-color: var(--cart-step-completed);
+    }
   }
 
   &__content {
@@ -70,7 +95,7 @@
     justify-content: space-between;
     gap: 64px;
 
-    margin-top: 80px;
+    margin-top: clamp(40px, 1.786rem + 3.57vw, 80px);
 
     font-family: var(--font-cart-items);
 
@@ -88,6 +113,21 @@
       max-width: none;
     }
   }
+  &__empty {
+    &-title {
+      margin-bottom: 12px;
+      font-size: clamp(32px, 1.536rem + 2.32vw, 58px);
+      font-weight: 600;
+    }
+    &-message {
+      font-size: clamp(16px, 0.714rem + 1.43vw, 32px);
+      margin-bottom: 16px;
+    }
+    &-link {
+      font-size: 24px;
+    }
+  }
+
   &__header {
     display: grid;
     // grid-template-columns: minmax(250px, 316px) 1fr;
@@ -380,11 +420,25 @@
 
     display: flex;
     align-items: center;
-    gap: 8px;
+    // gap: 8px;
 
     border: 1px solid #141718;
     border-radius: 4px;
     padding: 13px 16px;
+
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 162%;
+
+    @include mixins.media-xs {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 157%;
+
+      .custom-radio {
+        margin-right: 8px;
+      }
+    }
 
     span:last-child {
       margin-left: auto;
@@ -392,6 +446,10 @@
     // strong {
     //   margin-left: auto;
     // }
+
+    &--active {
+      background: #f3f5f7;
+    }
   }
   &__summary-subtotal {
     display: flex;
@@ -409,6 +467,10 @@
     span {
       font-weight: 600;
     }
+
+    span::before {
+      content: attr(data-value);
+    }
   }
   &__summary-total {
     display: flex;
@@ -420,6 +482,10 @@
     font-weight: 600;
     font-size: 20px;
     line-height: 160%;
+
+    strong::before {
+      content: attr(data-value);
+    }
   }
   &__checkout-btn {
     margin-top: 32px;

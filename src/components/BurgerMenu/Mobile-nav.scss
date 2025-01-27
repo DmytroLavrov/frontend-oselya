@@ -85,3 +85,7 @@
     display: flex !important;
   }
 }
+
+.nav__link.active {
+  color: var(--text-color);
+}

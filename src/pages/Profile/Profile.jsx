@@ -1,11 +1,13 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsAuth } from '@features/users/userSlice';
 import { logout } from '@features/users/userSlice';
 
 const Profile = () => {
   const dispatch = useDispatch();
-
+  const isAuth = useSelector(selectIsAuth);
   const navigate = useNavigate();
 
   const handleLeave = () => {
@@ -15,6 +17,12 @@ const Profile = () => {
       navigate('/');
     }
   };
+
+  useEffect(() => {
+    if (!isAuth & !window.localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <>

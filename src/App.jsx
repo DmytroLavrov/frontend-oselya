@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useLoginContext } from '@context/LoginContext';
+
+import { useSelector, useDispatch } from 'react-redux';
 import { getMe } from '@features/users/userSlice';
+import { selectIsAuth } from '@features/users/userSlice';
+import { getUserCart } from '@features/cart/cartSlice';
 
 import Header from '@layouts/Header/Header';
 import Footer from '@layouts/Footer/Footer';
@@ -21,21 +25,35 @@ import './App.scss';
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const App = () => {
+  const { showLogin } = useLoginContext();
   const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
+  const cartData = useSelector((state) => state.cart.items?.cartData);
 
   useEffect(() => {
     dispatch(getMe());
   }, []);
 
-  const [showLogin, setShowLogin] = useState(false);
+  useEffect(() => {
+    if (isAuth) {
+      dispatch(getUserCart());
+    }
+  }, [isAuth]);
+
+  const totalQuantity = cartData
+    ? Object.values(cartData).reduce((sum, quantity) => sum + quantity, 0)
+    : 0;
+
+  // const [showLogin, setShowLogin] = useState(false);
 
   return (
     <div className="app">
-      {showLogin && <PopupLogin setShowLogin={setShowLogin} />}
+      {/* {showLogin && <PopupLogin setShowLogin={setShowLogin} />} */}
+      {showLogin && <PopupLogin />}
       <Router>
         <ScrollToTop />
-        <Header setShowLogin={setShowLogin} />
-        {/* <Header /> */}
+        {/* <Header setShowLogin={setShowLogin} /> */}
+        <Header totalQuantity={totalQuantity} />
         <main className="main">
           <Routes>
             <Route path="/" element={<Home />} />

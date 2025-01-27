@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
+
+import { useLoginContext } from '@context/LoginContext';
 
 import disableScroll from 'disable-scroll';
 
@@ -15,18 +17,12 @@ import './Nav-icon.scss';
 import './Wishlist.scss';
 import './Cart-icon.scss';
 
-const BurgerMenu = ({ setShowLogin }) => {
+const BurgerMenu = ({ totalQuantity }) => {
   const isAuth = useSelector(selectIsAuth);
-
-  const [isBurgerClass, setIsBurgerClass] = useState(false);
-
-  const toggleBurgerClass = () => {
-    setIsBurgerClass((prevState) => !prevState);
-  };
-
-  const closeMenu = () => {
-    setIsBurgerClass(false);
-  };
+  const { setShowLogin, isBurgerClass, toggleBurgerClass, closeMenu } =
+    useLoginContext();
+  const [menu, setMenu] = useState('home');
+  const location = useLocation();
 
   useEffect(() => {
     if (isBurgerClass) {
@@ -37,7 +33,7 @@ const BurgerMenu = ({ setShowLogin }) => {
 
     const handleResize = () => {
       if (window.innerWidth > 768) {
-        setIsBurgerClass(false);
+        closeMenu();
         disableScroll.off();
       }
     };
@@ -48,6 +44,20 @@ const BurgerMenu = ({ setShowLogin }) => {
       window.removeEventListener('resize', handleResize);
     };
   }, [isBurgerClass]);
+
+  useEffect(() => {
+    if (location.pathname.includes('/product')) {
+      setMenu('product');
+    } else if (location.pathname === '/shop') {
+      setMenu('shop');
+    } else if (location.pathname === '/contact-us') {
+      setMenu('contact-us');
+    } else if (location.pathname === '/') {
+      setMenu('home');
+    } else {
+      setMenu('none'); // Для випадків 404 або невизначених шляхів
+    }
+  }, [location]);
 
   return (
     <>
@@ -63,24 +73,69 @@ const BurgerMenu = ({ setShowLogin }) => {
       </button>
 
       <div className={`mobile-nav ${isBurgerClass ? 'mobile-nav--open' : ''}`}>
+        {/* <ul className="mobile-nav__list">
+            {['Home', 'Shop', 'Product', 'Contact Us'].map((item, index) => (
+              <li key={index} className="mobile-nav__item">
+                <Link
+                  className="nav__link"
+                  to={
+                    item === 'Home'
+                      ? '/'
+                      : item === 'Product'
+                      ? '/shop/product'
+                      : `/${item.toLowerCase().replace(' ', '-')}`
+                  }
+                  onClick={closeMenu}
+                >
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul> */}
         <ul className="mobile-nav__list">
-          {['Home', 'Shop', 'Product', 'Contact Us'].map((item, index) => (
-            <li key={index} className="mobile-nav__item">
-              <Link
-                className="nav__link"
-                to={
-                  item === 'Home'
-                    ? '/'
-                    : item === 'Product'
-                    ? '/shop/product'
-                    : `/${item.toLowerCase().replace(' ', '-')}`
-                }
-                onClick={closeMenu}
-              >
-                {item}
-              </Link>
-            </li>
-          ))}
+          <li className="mobile-nav__item">
+            <Link
+              className={`nav__link${menu === 'home' ? ' active' : ''}`}
+              to="/"
+              onClick={closeMenu}
+            >
+              Home
+            </Link>
+          </li>
+
+          <li className="mobile-nav__item">
+            <Link
+              className={`nav__link${menu === 'shop' ? ' active' : ''}`}
+              to="/shop"
+              onClick={closeMenu}
+            >
+              Shop
+            </Link>
+          </li>
+
+          <li className="mobile-nav__item">
+            <Link
+              className={`nav__link${menu === 'product' ? ' active' : ''}`}
+              to={
+                localStorage.getItem('lastProduct')
+                  ? `/product/${localStorage.getItem('lastProduct')}`
+                  : '/shop'
+              }
+              onClick={closeMenu}
+            >
+              Product
+            </Link>
+          </li>
+
+          <li className="mobile-nav__item">
+            <Link
+              className={`nav__link${menu === 'contact-us' ? ' active' : ''}`}
+              to="/contact-us"
+              onClick={closeMenu}
+            >
+              Contact Us
+            </Link>
+          </li>
         </ul>
         <div className="mobile-nav__buttons">
           <Link className="mobile-nav__btn" to="/cart" onClick={closeMenu}>
@@ -92,7 +147,7 @@ const BurgerMenu = ({ setShowLogin }) => {
                   alt="cart-icon"
                   className="cart-icon__icon"
                 />
-                <div className="cart-icon__quantity">2</div>
+                <div className="cart-icon__quantity">{totalQuantity}</div>
               </div>
             </div>
           </Link>

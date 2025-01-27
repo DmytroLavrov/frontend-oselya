@@ -1,15 +1,73 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsAuth } from '@features/users/userSlice';
+import { fetchProducts } from '@features/products/productSlice';
+import { getUserCart } from '@features/cart/cartSlice';
+import { updateCart } from '@features/cart/cartSlice';
+import { removeFromCart } from '@features/cart/cartSlice';
+
+import { useResponsive } from '@hooks/useResponsive';
+
+import ArrowLink from '@components/ArrowLink/ArrowLink';
+import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
+
+import formatCurrency from '@utils/FormatCurrency';
 
 import './Cart.scss';
 
-import productImg from './product.jpg';
-import iconRemove from './icon-remove.svg';
+import iconRemove from '@assets/icons/remove-icon.svg';
 import minusIcon from '@assets/icons/minus-icon.svg';
 import addIcon from '@assets/icons/add-icon.svg';
-import { useResponsive } from '../../hooks/useResponsive';
+import checkIcon from '@assets/icons/check-icon.svg';
 
 const Cart = () => {
+  const navigate = useNavigate();
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
   const [shippingMethod, setShippingMethod] = useState('free');
+  const products = useSelector((state) => state.product.items);
+  const cartData = useSelector((state) => state.cart.items?.cartData);
+
+  // products.map((product) => console.log(product._id));
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(getUserCart());
+  }, []);
+
+  const subtotal = products.reduce((total, product) => {
+    if (cartData && product && cartData[product._id]) {
+      return total + product.price * cartData[product._id];
+    }
+    return total;
+  }, 0);
+
+  // Визначення ціни доставки
+  const shippingCost = {
+    free: 0,
+    express: 1500,
+    Worldwide: 3000,
+  }[shippingMethod];
+
+  // Загальна вартість
+  const total = subtotal + shippingCost;
+
+  const handleUpdateQuantity = (itemId, quantity) => {
+    if (isAuth && quantity > 0) {
+      dispatch(updateCart({ itemId, quantity }));
+    }
+  };
+
+  const handleRemoveFromCart = (itemId) => {
+    if (isAuth) {
+      dispatch(removeFromCart({ itemId }));
+    }
+
+    dispatch(fetchProducts());
+    dispatch(getUserCart());
+  };
 
   const handleShippingChange = (event) => {
     setShippingMethod(event.target.value); // Оновлюємо стан на значення вибраної опції
@@ -17,219 +75,268 @@ const Cart = () => {
 
   const isSmallScreen = useResponsive(640);
 
-  const products = [
-    {
-      id: 1,
-      name: 'Tray Table',
-      color: 'Black',
-      price: '19.00',
-      quantity: 2,
-    },
-    {
-      id: 2,
-      name: 'Tray Table',
-      color: 'Red',
-      price: '19.00',
-      quantity: 2,
-    },
-    {
-      id: 3,
-      name: 'Table ssssssssssssslamp',
-      color: 'Gold',
-      price: '39000.00',
-      quantity: 22,
-    },
-    // {
-    //   id: 4,
-    //   name: 'Table lamp',
-    //   color: 'Gold',
-    //   price: '39.00',
-    //   quantity: 1,
-    // },
-    // {
-    //   id: 5,
-    //   name: 'Table lamp',
-    //   color: 'Gold',
-    //   price: '39.00',
-    //   quantity: 1,
-    // },
-  ];
+  useEffect(() => {
+    if (!isAuth & !window.localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, []);
 
   return (
-    <section className="cart">
-      <div className="container">
-        <h2 className="cart__title title-2">Cart</h2>
-        <div className="cart__steps">
-          <div className="cart__step cart__step--active">
-            <span className="cart__step-circle">1</span> Shopping cart
-          </div>
-          <div className="cart__step">
-            <span className="cart__step-circle">2</span> Checkout details
-          </div>
-          <div className="cart__step">
-            <span className="cart__step-circle">3</span> Order complete
-          </div>
-        </div>
-        <div className="cart__content">
-          <div className="cart__table">
-            <div className="cart__header">
-              <div className="cart__header-left">
-                <span>Product</span>
-              </div>
-              <div className="cart__header-right">
-                <span>Quantity</span>
-                {/* <span>Price</span> */}
-                <span>Subtotal</span>
-              </div>
+    <>
+      <Breadcrumbs />
+      <section className="cart">
+        <div className="container">
+          {products.length === 0 ||
+          (cartData && Object.keys(cartData).length === 0) ? (
+            <div className="cart__empty">
+              <h1 className="cart__empty-title">Your cart is empty</h1>
+              <p className="cart__empty-message">
+                No worries! Start adding some stylish furniture to fill up that
+                space.
+              </p>
+              <ArrowLink href="/shop" className="cart__empty-link">
+                Shop Now
+              </ArrowLink>
             </div>
-            {!isSmallScreen ? (
-              <div className="cart__list">
-                {products.map((product) => (
-                  <div className="cart__item" key={product.id}>
-                    <div className="cart__item-left">
-                      <div className="cart__item-info">
-                        <div className="cart__item-picture">
-                          <img src={productImg} alt="item-image" />
-                        </div>
-                        <div className="cart__item-content">
-                          <h4 className="cart__item-title" title={product.name}>
-                            {product.name}
-                          </h4>
-                          <div className="cart__item-price">
-                            Price: <span data-value="$">{product.price}</span>
-                          </div>
-                          <button className="cart__item-btn-remove">
-                            <img src={iconRemove} alt="icon-remove" />
-                            <span>Remove</span>
-                          </button>
-                        </div>
-                      </div>
+          ) : (
+            <>
+              <h2 className="cart__title title-2">Cart</h2>
+              <div className="cart__steps">
+                <div className="cart__step cart__step--completed">
+                  <div className="cart__step-circle">
+                    <img src={checkIcon} alt="check-icon" />
+                  </div>
+                  <div className="cart__step-title">Shopping cart</div>
+                </div>
+                <div className="cart__step cart__step--active">
+                  <div className="cart__step-circle">2</div>
+                  <div className="cart__step-title">Checkout details</div>
+                </div>
+                <div className="cart__step">
+                  <div className="cart__step-circle">3</div>
+                  <div className="cart__step-title">Order complete</div>
+                </div>
+              </div>
+              <div className="cart__content">
+                <div className="cart__table">
+                  <div className="cart__header">
+                    <div className="cart__header-left">
+                      <span>Product</span>
                     </div>
-                    <div className="cart__item-right">
-                      <div className="cart__item-quantity">
-                        <button>
-                          <img src={minusIcon} alt="minus-icon" />
-                        </button>
-                        <span className="cart__item-count">
-                          {product.quantity}
-                        </span>
-                        <button>
-                          <img src={addIcon} alt="add-icon" />
-                        </button>
-                      </div>
-                      {/* <span className="cart__item-price" data-value="$">
-                        {product.price}
-                      </span> */}
-                      <span className="cart__item-subtotal" data-value="$">
-                        {product.price}
-                      </span>
+                    <div className="cart__header-right">
+                      <span>Quantity</span>
+                      {/* <span>Price</span> */}
+                      <span>Subtotal</span>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="cart__list">
-                {products.map((product) => (
-                  <div className="cart__item" key={product.id}>
-                    <div className="cart__item-left">
-                      <div className="cart__item-info">
-                        <div className="cart__item-picture">
-                          <img src={productImg} alt="item-image" />
-                        </div>
-                        <div className="cart__item-content">
-                          <h4 className="cart__item-title" title={product.name}>
-                            {product.name}
-                          </h4>
-                          <div className="cart__item-price">
-                            Price: <span data-value="$">{product.price}</span>
-                          </div>
 
-                          <div className="cart__item-quantity">
-                            <button>
-                              <img src={minusIcon} alt="minus-icon" />
-                            </button>
-                            <span className="cart__item-count">
-                              {product.quantity}
-                            </span>
-                            <button>
-                              <img src={addIcon} alt="add-icon" />
-                            </button>
+                  <div className="cart__list">
+                    {products.map((product) => {
+                      if (cartData && product && cartData[product._id] > 0) {
+                        return !isSmallScreen ? (
+                          <div className="cart__item" key={product._id}>
+                            <div className="cart__item-left">
+                              <div className="cart__item-info">
+                                <div className="cart__item-picture">
+                                  <img src={product.image} alt="item-image" />
+                                </div>
+                                <div className="cart__item-content">
+                                  <h4
+                                    className="cart__item-title"
+                                    title={product.name}
+                                  >
+                                    {product.name}
+                                  </h4>
+                                  <div className="cart__item-price">
+                                    Price:{' '}
+                                    <span data-value="$">
+                                      {formatCurrency(product.price)}
+                                    </span>
+                                  </div>
+                                  <button
+                                    onClick={() =>
+                                      handleRemoveFromCart(product._id)
+                                    }
+                                    className="cart__item-btn-remove"
+                                  >
+                                    <img src={iconRemove} alt="icon-remove" />
+                                    <span>Remove</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="cart__item-right">
+                              <div className="cart__item-quantity">
+                                <button
+                                  onClick={() =>
+                                    handleUpdateQuantity(
+                                      product._id,
+                                      cartData[product._id] - 1
+                                    )
+                                  }
+                                >
+                                  <img src={minusIcon} alt="minus-icon" />
+                                </button>
+                                <span className="cart__item-count">
+                                  {cartData[product._id]}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    handleUpdateQuantity(
+                                      product._id,
+                                      cartData[product._id] + 1
+                                    )
+                                  }
+                                >
+                                  <img src={addIcon} alt="add-icon" />
+                                </button>
+                              </div>
+                              {/* <span className="cart__item-price" data-value="$">
+                              {product.price}
+                            </span> */}
+                              <span
+                                className="cart__item-subtotal"
+                                data-value="$"
+                              >
+                                {formatCurrency(
+                                  product.price * cartData[product._id]
+                                )}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="cart__item-right">
-                      <span className="cart__item-subtotal" data-value="$">
-                        {product.price}
-                      </span>
-                      <button className="cart__item-btn-remove">
-                        <img src={iconRemove} alt="icon-remove" />
-                      </button>
-                    </div>
+                        ) : (
+                          <div className="cart__item" key={product._id}>
+                            <div className="cart__item-left">
+                              <div className="cart__item-info">
+                                <div className="cart__item-picture">
+                                  <img src={productImg} alt="item-image" />
+                                </div>
+                                <div className="cart__item-content">
+                                  <h4
+                                    className="cart__item-title"
+                                    title={product.name}
+                                  >
+                                    {product.name}
+                                  </h4>
+                                  <div className="cart__item-price">
+                                    Price:{' '}
+                                    <span data-value="$">{product.price}</span>
+                                  </div>
+
+                                  <div className="cart__item-quantity">
+                                    <button
+                                      onClick={() =>
+                                        handleUpdateQuantity(
+                                          product._id,
+                                          cartData[product._id] - 1
+                                        )
+                                      }
+                                    >
+                                      <img src={minusIcon} alt="minus-icon" />
+                                    </button>
+                                    <span className="cart__item-count">
+                                      {cartData[product._id]}
+                                    </span>
+                                    <button
+                                      onClick={() =>
+                                        handleUpdateQuantity(
+                                          product._id,
+                                          cartData[product._id] + 1
+                                        )
+                                      }
+                                    >
+                                      <img src={addIcon} alt="add-icon" />
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="cart__item-right">
+                              <span
+                                className="cart__item-subtotal"
+                                data-value="$"
+                              >
+                                {formatCurrency(
+                                  product.price * cartData[product._id]
+                                )}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  handleRemoveFromCart(product._id)
+                                }
+                                className="cart__item-btn-remove"
+                              >
+                                <img src={iconRemove} alt="icon-remove" />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
+                </div>
 
-          <div className="cart__summary">
-            <h3 className="cart__summary-title">Cart Summary</h3>
-            <div className="cart__shipping-method">
-              <label className="cart__shipping-option cart__shipping-option--active">
-                <input
-                  type="radio"
-                  name="shipping"
-                  value="free"
-                  checked={shippingMethod === 'free'}
-                  onChange={handleShippingChange}
-                  className="real-radio"
-                />
-                <span className="custom-radio"></span>
-                Free shipping
-                <span>$0.00</span>
-              </label>
-              <label className="cart__shipping-option">
-                <input
-                  type="radio"
-                  name="shipping"
-                  value="express"
-                  checked={shippingMethod === 'express'}
-                  onChange={handleShippingChange}
-                  className="real-radio"
-                />
-                <span className="custom-radio"></span>
-                Express shipping
-                <span>+$15.00</span>
-              </label>
-              <label className="cart__shipping-option">
-                <input
-                  type="radio"
-                  name="shipping"
-                  value="international"
-                  checked={shippingMethod === 'international'}
-                  onChange={handleShippingChange}
-                  className="real-radio"
-                />
-                <span className="custom-radio"></span>
-                International shipping
-                <span>+$30.00</span>
-              </label>
-            </div>
-            <div className="cart__summary-subtotal">
-              Subtotal:
-              <span>$1234.00</span>
-            </div>
-            <div className="cart__summary-total">
-              Total:
-              <strong>$1345.00</strong>
-            </div>
-            <button className="cart__checkout-btn button-primary">
-              Checkout
-            </button>
-          </div>
+                <div className="cart__summary">
+                  <h3 className="cart__summary-title">Cart Summary</h3>
+                  <div className="cart__shipping-method">
+                    <label className="cart__shipping-option cart__shipping-option--active">
+                      <input
+                        type="radio"
+                        name="shipping"
+                        value="free"
+                        checked={shippingMethod === 'free'}
+                        onChange={handleShippingChange}
+                        className="real-radio"
+                      />
+                      <span className="custom-radio"></span>
+                      Free shipping
+                      <span>$0.00</span>
+                    </label>
+                    <label className="cart__shipping-option">
+                      <input
+                        type="radio"
+                        name="shipping"
+                        value="express"
+                        checked={shippingMethod === 'express'}
+                        onChange={handleShippingChange}
+                        className="real-radio"
+                      />
+                      <span className="custom-radio"></span>
+                      Express shipping
+                      <span>+$15.00</span>
+                    </label>
+                    <label className="cart__shipping-option">
+                      <input
+                        type="radio"
+                        name="shipping"
+                        value="Worldwide"
+                        checked={shippingMethod === 'Worldwide'}
+                        onChange={handleShippingChange}
+                        className="real-radio"
+                      />
+                      <span className="custom-radio"></span>
+                      Worldwide shipping
+                      <span>+$30.00</span>
+                    </label>
+                  </div>
+                  <div className="cart__summary-subtotal">
+                    Subtotal:
+                    <span data-value="$">{formatCurrency(subtotal)}</span>
+                  </div>
+                  <div className="cart__summary-total">
+                    Total:
+                    <strong data-value="$">{formatCurrency(total)}</strong>
+                  </div>
+                  <button className="cart__checkout-btn button-primary">
+                    Checkout
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

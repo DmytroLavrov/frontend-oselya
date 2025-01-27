@@ -10,7 +10,8 @@
 
     &:hover {
       .card__button {
-        transform: translateY(0%);
+        // transform: translateY(0%);
+        transform: translateY(-250%);
         opacity: 1;
         pointer-events: all;
       }
@@ -75,7 +76,8 @@
       right: clamp(12px, 0.464rem + 0.6vw, 16px);
       transition: all 0.2s ease-in;
       opacity: 0;
-      transform: translateY(50%);
+      // transform: translateY(50%);
+      transform: translateX(0%) translateY(-200%);
       pointer-events: none;
 
       // 768px
@@ -154,7 +156,8 @@
 
     &:hover {
       .card__button {
-        transform: translateY(0%);
+        // transform: translateY(-0%);
+        transform: translateY(-170%);
         opacity: 1;
         pointer-events: all;
       }
@@ -207,7 +210,9 @@
       right: 16px;
       transition: all 0.2s ease-in;
       opacity: 0;
-      transform: translateY(50%);
+      // transform: translateY(50%);
+      transform: translateX(0%) translateY(-110%);
+
       pointer-events: none;
 
       .button-primary {

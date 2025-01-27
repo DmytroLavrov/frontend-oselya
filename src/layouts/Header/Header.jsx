@@ -3,6 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
+// import { getUserCart } from '@features/cart/cartSlice';
+
+import { useLoginContext } from '@context/LoginContext';
 
 import Logo from './logo.svg';
 import BurgerMenu from '@components/BurgerMenu/BurgerMenu';
@@ -12,12 +15,15 @@ import cartIcon from './cart.svg';
 
 import './Header.scss';
 import './Nav.scss';
-// import './Cart.scss';
 
 import styles from './Cart.module.scss';
 
-const Header = ({ setShowLogin }) => {
+const Header = ({ totalQuantity }) => {
+  const { setShowLogin, isBurgerClass, closeMenu } = useLoginContext();
   const isAuth = useSelector(selectIsAuth);
+
+  // const dispatch = useDispatch();
+  // const cartData = useSelector((state) => state.cart.items?.cartData);
 
   const [menu, setMenu] = useState('home');
   const location = useLocation();
@@ -36,12 +42,22 @@ const Header = ({ setShowLogin }) => {
     }
   }, [location]);
 
+  // useEffect(() => {
+  //   if (isAuth) {
+  //     dispatch(getUserCart());
+  //   }
+  // }, [isAuth, dispatch]);
+
+  // const totalQuantity = cartData
+  //   ? Object.values(cartData).reduce((sum, quantity) => sum + quantity, 0)
+  //   : 0;
+
   return (
     <header className="header">
       <div className="container">
         <nav className="header__nav nav">
           <div className="nav__logo logo">
-            <Link to="/">
+            <Link to="/" onClick={isBurgerClass ? closeMenu : null}>
               <img src={Logo} alt="logo" className="logo" />
             </Link>
           </div>
@@ -109,17 +125,36 @@ const Header = ({ setShowLogin }) => {
               </button>
             )}
 
-            <Link to={'/cart'} className="nav__icon-link  nav__icon-link--cart">
-              <div className={`nav__cart ${styles.cart}`}>
+            {isAuth ? (
+              <Link
+                to={'/cart'}
+                className="nav__icon-link  nav__icon-link--cart"
+              >
+                <div className={`nav__cart ${styles.cart}`}>
+                  <img
+                    src={cartIcon}
+                    alt="cart-icon"
+                    className={styles.cart__icon}
+                  />
+                  <div className={styles.cart__quantity}>{totalQuantity}</div>
+                </div>
+              </Link>
+            ) : (
+              <div
+                onClick={() => setShowLogin((prev) => !prev)}
+                className={`nav__cart ${styles.cart}`}
+              >
                 <img
                   src={cartIcon}
                   alt="cart-icon"
                   className={styles.cart__icon}
                 />
-                <div className={styles.cart__quantity}>2</div>
+                <div className={styles.cart__quantity}>0</div>
               </div>
-            </Link>
-            <BurgerMenu setShowLogin={setShowLogin} />
+            )}
+
+            {/* <BurgerMenu setShowLogin={setShowLogin} /> */}
+            <BurgerMenu totalQuantity={totalQuantity} />
           </div>
         </nav>
       </div>

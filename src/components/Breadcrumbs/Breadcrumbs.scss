@@ -1,4 +1,6 @@
 .breadcrumbs {
+  margin-top: 16px;
+
   &__list {
     display: flex;
     flex-wrap: wrap;
@@ -34,5 +36,5 @@
 }
 
 .breadcrumbs--product {
-  padding-block: 16px;
+  margin-block: 16px;
 }

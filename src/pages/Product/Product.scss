@@ -24,6 +24,7 @@
   // media (gallery)
   &__media {
     max-width: 549px;
+    max-height: 729px;
     width: 100%;
 
     @include mixins.media-lg {
@@ -149,27 +150,82 @@
 
     font-family: var(--font-product-page);
 
-    div {
-      display: flex;
-      justify-content: space-between;
-      gap: clamp(8px, 0.214rem + 1.43vw, 24px);
-    }
+    // div {
+    //   display: flex;
+    //   justify-content: space-between;
+    //   gap: clamp(8px, 0.214rem + 1.43vw, 24px);
+    // }
+  }
+  &__actions-top {
+    display: flex;
+    justify-content: space-between;
+    gap: clamp(8px, 0.214rem + 1.43vw, 24px);
+  }
+  &__actions-bottom {
   }
   &__quantity {
-    border-radius: clamp(4px, 0.179rem + 0.36vw, 8px);
-    padding: clamp(6px, 0.268rem + 0.54vw, 12px)
+    // border-radius: clamp(4px, 0.179rem + 0.36vw, 8px);
+    // padding: clamp(6px, 0.268rem + 0.54vw, 12px)
+    //   clamp(8px, 0.357rem + 0.71vw, 16px);
+    // width: 100%;
+    // max-width: 127px;
+    // // width: 127px;
+    // // height: 52px;
+    // background: #f5f5f5;
+
+    // font-weight: 600;
+    // font-size: 16px;
+    // line-height: 162%;
+    // text-align: center;
+    // color: #121212;
+  }
+  &__quantity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: clamp(7px, 0.348rem + 0.45vw, 12px)
       clamp(8px, 0.357rem + 0.71vw, 16px);
     width: 100%;
-    max-width: 127px;
-    // width: 127px;
-    // height: 52px;
-    background: #f5f5f5;
+    max-width: clamp(90px, 4.964rem + 3.3vw, 127px);
+    // height: 32px;
+    // max-width: 80px;
 
+    // text-align: center;
+
+    button {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
+
+      img {
+        width: clamp(16px, 0.929rem + 0.36vw, 20px);
+        height: clamp(16px, 0.929rem + 0.36vw, 20px);
+      }
+    }
+  }
+  &__count {
     font-weight: 600;
-    font-size: 16px;
-    line-height: 162%;
+    font-size: clamp(12px, 0.679rem + 0.36vw, 16px);
+    line-height: clamp(20px, 1.143rem + 0.54vw, 26px);
     text-align: center;
     color: #121212;
+
+    -webkit-appearance: none; /* Для Safari і Chrome */
+    -moz-appearance: textfield; /* Для Firefox */
+    appearance: textfield; /* Для інших браузерів */
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
   }
   &__wishlist {
     display: flex;

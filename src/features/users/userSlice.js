@@ -32,6 +32,9 @@ export const getMe = createAsyncThunk('user/getMe', async () => {
       Authorization: token,
     },
   });
+
+  // console.log(data);
+
   return data;
 });
 
@@ -45,7 +48,7 @@ const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.data = null;
-      localStorage.removeItem('token');
+      // localStorage.removeItem('token');
     },
   },
   extraReducers: (builder) => {
@@ -58,6 +61,7 @@ const userSlice = createSlice({
         state.status = 'loaded';
         state.data = action.payload;
         // localStorage.setItem('token', JSON.stringify(action.payload));
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(signUp.rejected, (state) => {
         state.status = 'error';
@@ -71,6 +75,7 @@ const userSlice = createSlice({
         state.status = 'loaded';
         state.data = action.payload;
         // localStorage.setItem('token', JSON.stringify(action.payload));
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(signIn.rejected, (state) => {
         state.status = 'error';
