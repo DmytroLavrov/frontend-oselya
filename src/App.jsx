@@ -17,6 +17,7 @@ import Product from '@pages/Product/Product';
 import PopupLogin from '@components/PopupLogin/PopupLogin';
 import Profile from '@pages/Profile/Profile';
 import Cart from '@pages/Cart/Cart';
+import Checkout from '@pages/Checkout/Checkout';
 import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
 import ScrollToTop from '@utils/ScrollToTop';
 
@@ -62,6 +63,7 @@ const App = () => {
             <Route path="/product/:id" element={<Product />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

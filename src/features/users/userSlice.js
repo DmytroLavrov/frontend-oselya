@@ -49,6 +49,7 @@ const userSlice = createSlice({
     logout: (state) => {
       state.data = null;
       // localStorage.removeItem('token');
+      localStorage.removeItem('selectedShipping');
     },
   },
   extraReducers: (builder) => {

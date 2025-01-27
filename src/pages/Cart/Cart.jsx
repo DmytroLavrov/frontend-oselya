@@ -26,13 +26,23 @@ const Cart = () => {
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
-  const [shippingMethod, setShippingMethod] = useState('free');
+  const [shippingMethod, setShippingMethod] = useState('Free');
   const products = useSelector((state) => state.product.items);
   const cartData = useSelector((state) => state.cart.items?.cartData);
+  const isCartEmpty =
+    products.length === 0 || (cartData && Object.keys(cartData).length === 0);
 
   // products.map((product) => console.log(product._id));
 
   useEffect(() => {
+    const savedShippingMethod = localStorage.getItem('selectedShipping');
+    if (savedShippingMethod) {
+      setShippingMethod(savedShippingMethod);
+    } else {
+      setShippingMethod('Free'); // За замовчуванням безкоштовна доставка
+      localStorage.setItem('selectedShipping', shippingMethod);
+    }
+
     dispatch(fetchProducts());
     dispatch(getUserCart());
   }, []);
@@ -46,8 +56,8 @@ const Cart = () => {
 
   // Визначення ціни доставки
   const shippingCost = {
-    free: 0,
-    express: 1500,
+    Free: 0,
+    Express: 1500,
     Worldwide: 3000,
   }[shippingMethod];
 
@@ -70,8 +80,19 @@ const Cart = () => {
   };
 
   const handleShippingChange = (event) => {
-    setShippingMethod(event.target.value); // Оновлюємо стан на значення вибраної опції
+    const selectedShipping = event.target.value;
+    setShippingMethod(selectedShipping); // Оновлюємо стан на значення вибраної опції
+
+    localStorage.setItem('selectedShipping', selectedShipping);
   };
+
+  const handleCheckout = () => {
+    navigate('/checkout'); // '/checkout' - шлях до сторінки оформлення замовлення
+  };
+  // const handleCheckout = () => {
+  //   localStorage.setItem('fromCart', 'true');
+  //   navigate('/checkout');
+  // };
 
   const isSmallScreen = useResponsive(640);
 
@@ -86,8 +107,7 @@ const Cart = () => {
       <Breadcrumbs />
       <section className="cart">
         <div className="container">
-          {products.length === 0 ||
-          (cartData && Object.keys(cartData).length === 0) ? (
+          {isCartEmpty ? (
             <div className="cart__empty">
               <h1 className="cart__empty-title">Your cart is empty</h1>
               <p className="cart__empty-message">
@@ -102,13 +122,11 @@ const Cart = () => {
             <>
               <h2 className="cart__title title-2">Cart</h2>
               <div className="cart__steps">
-                <div className="cart__step cart__step--completed">
-                  <div className="cart__step-circle">
-                    <img src={checkIcon} alt="check-icon" />
-                  </div>
+                <div className="cart__step cart__step--active">
+                  <div className="cart__step-circle">1</div>
                   <div className="cart__step-title">Shopping cart</div>
                 </div>
-                <div className="cart__step cart__step--active">
+                <div className="cart__step">
                   <div className="cart__step-circle">2</div>
                   <div className="cart__step-title">Checkout details</div>
                 </div>
@@ -209,7 +227,7 @@ const Cart = () => {
                             <div className="cart__item-left">
                               <div className="cart__item-info">
                                 <div className="cart__item-picture">
-                                  <img src={productImg} alt="item-image" />
+                                  <img src={product.image} alt="item-image" />
                                 </div>
                                 <div className="cart__item-content">
                                   <h4
@@ -283,8 +301,8 @@ const Cart = () => {
                       <input
                         type="radio"
                         name="shipping"
-                        value="free"
-                        checked={shippingMethod === 'free'}
+                        value="Free"
+                        checked={shippingMethod === 'Free'}
                         onChange={handleShippingChange}
                         className="real-radio"
                       />
@@ -296,8 +314,8 @@ const Cart = () => {
                       <input
                         type="radio"
                         name="shipping"
-                        value="express"
-                        checked={shippingMethod === 'express'}
+                        value="Express"
+                        checked={shippingMethod === 'Express'}
                         onChange={handleShippingChange}
                         className="real-radio"
                       />
@@ -327,7 +345,10 @@ const Cart = () => {
                     Total:
                     <strong data-value="$">{formatCurrency(total)}</strong>
                   </div>
-                  <button className="cart__checkout-btn button-primary">
+                  <button
+                    onClick={handleCheckout}
+                    className="cart__checkout-btn button-primary"
+                  >
                     Checkout
                   </button>
                 </div>

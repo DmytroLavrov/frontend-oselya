@@ -11,7 +11,7 @@
   &__steps {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: clamp(16px, 0.198rem + 2vw, 32px);
+    gap: clamp(24px, 1.357rem + 0.71vw, 32px);
 
     max-width: 832px;
     margin: 0 auto;
