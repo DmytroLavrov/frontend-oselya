@@ -1,0 +1,75 @@
+.avatar {
+  label {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 8px;
+  }
+  &__wrapper {
+    position: relative;
+
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    // margin-bottom: 8px;
+    &:hover {
+      .avatar__hover-image {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__edit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  &__image {
+    width: 80px;
+    height: 80px;
+    border-radius: 82px;
+
+    // margin-bottom: 6px;
+  }
+  &__hover-image {
+    display: flex;
+    position: absolute;
+    right: 0;
+    left: 0;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    border-radius: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 80px;
+    height: 80px;
+    font-size: 13px;
+    text-align: center;
+  }
+  &__input {
+    display: none;
+  }
+  &__btn {
+    border-radius: 100%;
+    line-height: 16px;
+
+    width: 24px;
+    height: 24px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+
+    &--accept {
+      background-color: #38cb89;
+      margin-right: 12px;
+    }
+
+    &--cancel {
+      background-color: #e74c3c;
+    }
+  }
+}

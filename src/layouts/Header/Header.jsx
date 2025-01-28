@@ -10,7 +10,7 @@ import { useLoginContext } from '@context/LoginContext';
 import Logo from './logo.svg';
 import BurgerMenu from '@components/BurgerMenu/BurgerMenu';
 import searchIcon from './search.svg';
-import userIcon from './user-circle.svg';
+import userIcon from '@assets/icons/user-placeholder.svg';
 import cartIcon from './cart.svg';
 
 import './Header.scss';
@@ -24,6 +24,7 @@ const Header = ({ totalQuantity }) => {
 
   // const dispatch = useDispatch();
   // const cartData = useSelector((state) => state.cart.items?.cartData);
+  const userData = useSelector((state) => state.user.data);
 
   const [menu, setMenu] = useState('home');
   const location = useLocation();
@@ -109,16 +110,16 @@ const Header = ({ totalQuantity }) => {
 
             {isAuth ? (
               <Link
-                to="/profile"
-                className="nav__icon-link nav__icon-link--profile"
+                to="/account"
+                className="nav__icon-link nav__icon-link--account"
               >
                 <div className="user-icon">
-                  <img src={userIcon} alt="user-icon" />
+                  <img src={userData?.avatarUrl || userIcon} alt="user-icon" />
                 </div>
               </Link>
             ) : (
               <button
-                className="nav__profile-btn button-primary"
+                className="nav__account-btn button-primary"
                 onClick={() => setShowLogin((prev) => !prev)}
               >
                 Sign Up

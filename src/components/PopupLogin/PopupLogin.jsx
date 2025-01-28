@@ -20,7 +20,7 @@ const PopupLogin = () =>
 
     const [currState, setCurrState] = useState('Sign Up');
     const [formData, setFormData] = useState({
-      name: '',
+      login: '',
       email: '',
       password: '',
     });
@@ -33,7 +33,7 @@ const PopupLogin = () =>
 
     const validateForm = () => {
       if (currState === 'Sign Up') {
-        if (!formData.name || formData.name.length < 3) {
+        if (!formData.login || formData.login.length < 3) {
           toast.error('Name must be at least 3 characters long');
           return false;
         }
@@ -53,10 +53,10 @@ const PopupLogin = () =>
       e.preventDefault();
       if (!validateForm()) return;
 
-      const { name, email, password } = formData;
+      const { login, email, password } = formData;
       const values =
         currState === 'Sign Up'
-          ? { name, email, password }
+          ? { login, email, password }
           : { email, password };
       const action = currState === 'Sign Up' ? signUp(values) : signIn(values);
       const response = await dispatch(action);
@@ -116,13 +116,13 @@ const PopupLogin = () =>
                   <>
                     <div className="popup-login__field">
                       <input
-                        id="name"
-                        name="name"
+                        id="login"
+                        name="login"
                         onChange={onChangeHandler}
-                        value={formData.name}
+                        value={formData.login}
                         type="text"
                         className="popup-login__input"
-                        placeholder="Your Name"
+                        placeholder="Your Login"
                         required
                       />
                     </div>

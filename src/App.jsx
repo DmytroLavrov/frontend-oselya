@@ -15,9 +15,10 @@ import ContactUs from '@pages/ContactUs/ContactUs';
 import Shop from '@pages/Shop/Shop';
 import Product from '@pages/Product/Product';
 import PopupLogin from '@components/PopupLogin/PopupLogin';
-import Profile from '@pages/Profile/Profile';
+import Account from '@pages/Account/Account';
 import Cart from '@pages/Cart/Cart';
 import Checkout from '@pages/Checkout/Checkout';
+import OrderComplete from '@pages/OrderComplete/OrderComplete';
 import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
 import ScrollToTop from '@utils/ScrollToTop';
 
@@ -61,9 +62,11 @@ const App = () => {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<Product />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/account/orders" element={<Account />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-complete" element={<OrderComplete />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

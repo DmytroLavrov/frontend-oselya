@@ -1,7 +1,9 @@
 @use '../../styles/mixins';
 
 .checkout {
-  margin-block: clamp(40px, 1.786rem + 3.57vw, 80px);
+  // margin-block: clamp(40px, 1.786rem + 3.57vw, 80px);
+  margin-top: 40px;
+  margin-bottom: clamp(40px, 1.786rem + 3.57vw, 80px);
 
   &__title {
     text-align: center;
@@ -191,6 +193,20 @@
     // @include mixins.media-md {
     //   width: 100%;
     // }
+
+    -webkit-appearance: none; /* Для Safari і Chrome */
+    -moz-appearance: textfield; /* Для Firefox */
+    appearance: textfield; /* Для інших браузерів */
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
   }
   &__payment {
     &-option {

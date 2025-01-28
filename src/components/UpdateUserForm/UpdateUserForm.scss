@@ -1,0 +1,48 @@
+@use '../../styles/mixins';
+
+.account-form {
+  font-family: var(--font-account);
+
+  &__field {
+    margin-bottom: 24px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+  &__label {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 100%;
+    text-transform: uppercase;
+    color: var(--account-label-color);
+
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  &__input {
+    border: 1px solid #cbcbcb;
+    border-radius: 6px;
+    // padding: 0px 16px;
+    padding-inline: 16px;
+    // width: clamp(290px, 13.589rem + 22.68vw, 544px);
+    width: 100%;
+    height: 40px;
+    background: #fff;
+
+    // @include mixins.media-md {
+    //   width: 100%;
+    // }
+  }
+
+  &__btn-save {
+    margin-top: 24px;
+
+    padding: 12px 20px !important;
+    max-width: 183px;
+
+    @include mixins.media-xs {
+      max-width: none;
+    }
+  }
+}

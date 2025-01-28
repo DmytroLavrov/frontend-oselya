@@ -38,6 +38,52 @@ export const getMe = createAsyncThunk('user/getMe', async () => {
   return data;
 });
 
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const { data } = await axios.patch(
+        backendUrl + `/auth/edit/${userData.id}`,
+        userData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      // Якщо є помилка з email, повертаємо її для обробки в компоненті
+      if (error.response && error.response.data) {
+        return rejectWithValue(
+          error.response.data.message || 'An error occurred'
+        );
+      }
+      return rejectWithValue('An unknown error occurred');
+    }
+  }
+);
+
+export const updateAvatar = createAsyncThunk(
+  'user/updateAvatar',
+  async ({ formData, userId }) => {
+    const token = localStorage.getItem('token');
+
+    const { data } = await axios.patch(
+      backendUrl + `/auth/edit/avatar/${userId}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: token,
+        },
+      }
+    );
+    return data;
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -93,6 +139,26 @@ const userSlice = createSlice({
       .addCase(getMe.rejected, (state) => {
         state.status = 'error';
         state.data = null;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.status = 'loaded';
+        state.data = action.payload;
+      })
+      .addCase(updateUser.rejected, (state) => {
+        state.status = 'error';
+      })
+      .addCase(updateAvatar.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateAvatar.fulfilled, (state, action) => {
+        state.status = 'loaded';
+        state.data = action.payload;
+      })
+      .addCase(updateAvatar.rejected, (state) => {
+        state.status = 'error';
       });
   },
 });

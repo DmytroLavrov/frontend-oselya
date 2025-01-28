@@ -14,6 +14,7 @@ import ArrowLink from '@components/ArrowLink/ArrowLink';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 
 import formatCurrency from '@utils/FormatCurrency';
+import { calculateCartTotal } from '@utils/CartUtils';
 
 import './Cart.scss';
 
@@ -32,6 +33,12 @@ const Cart = () => {
   const isCartEmpty =
     products.length === 0 || (cartData && Object.keys(cartData).length === 0);
 
+  const { subtotal, total } = calculateCartTotal(
+    products,
+    cartData,
+    shippingMethod
+  );
+
   // products.map((product) => console.log(product._id));
 
   useEffect(() => {
@@ -47,22 +54,22 @@ const Cart = () => {
     dispatch(getUserCart());
   }, []);
 
-  const subtotal = products.reduce((total, product) => {
-    if (cartData && product && cartData[product._id]) {
-      return total + product.price * cartData[product._id];
-    }
-    return total;
-  }, 0);
+  // const subtotal = products.reduce((total, product) => {
+  //   if (cartData && product && cartData[product._id]) {
+  //     return total + product.price * cartData[product._id];
+  //   }
+  //   return total;
+  // }, 0);
 
-  // Визначення ціни доставки
-  const shippingCost = {
-    Free: 0,
-    Express: 1500,
-    Worldwide: 3000,
-  }[shippingMethod];
+  // // Визначення ціни доставки
+  // const shippingCost = {
+  //   Free: 0,
+  //   Express: 1500,
+  //   Worldwide: 3000,
+  // }[shippingMethod];
 
-  // Загальна вартість
-  const total = subtotal + shippingCost;
+  // // Загальна вартість
+  // const total = subtotal + shippingCost;
 
   const handleUpdateQuantity = (itemId, quantity) => {
     if (isAuth && quantity > 0) {

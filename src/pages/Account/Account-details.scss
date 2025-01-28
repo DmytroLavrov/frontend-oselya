@@ -1,0 +1,45 @@
+@use '../../styles/mixins';
+
+.account-details {
+  &__title {
+  }
+  &__group {
+    margin-bottom: 40px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  &__info {
+    max-width: 400px;
+  }
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    text-align: left;
+    margin-bottom: 20px;
+
+    @include mixins.media-sm {
+      grid-template-columns: auto;
+      grid-template-rows: 1fr 1fr;
+      gap: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e8ecef;
+      margin-bottom: 16px;
+    }
+  }
+  &__label {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 157%;
+    color: var(--order-complete-label-color);
+  }
+  &__value {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 157%;
+    color: #141718;
+    word-break: break-word;
+  }
+}

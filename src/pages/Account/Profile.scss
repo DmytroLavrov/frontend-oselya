@@ -1,0 +1,19 @@
+.profile {
+  text-align: center;
+  margin-bottom: 40px;
+
+  &__avatar {
+    margin-bottom: 8px;
+  }
+  &__info {
+  }
+  &__login {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 160%;
+    color: #000;
+    margin-bottom: 4px;
+  }
+  &__registered {
+  }
+}

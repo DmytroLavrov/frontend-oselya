@@ -5,15 +5,16 @@ import axios from 'axios';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
-import { fetchProducts } from '@features/products/productSlice';
+// import { fetchProducts } from '@features/products/productSlice';
 import { placeOrder } from '../../features/orders/orderSlice';
 import { getUserCart } from '@features/cart/cartSlice';
 
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 
 import formatCurrency from '@utils/FormatCurrency';
+import { calculateCartTotal } from '@utils/CartUtils';
 
-import { backendUrl } from '../../App';
+// import { backendUrl } from '../../App';
 
 import './Checkout.scss';
 
@@ -40,26 +41,32 @@ const Checkout = () => {
   const products = useSelector((state) => state.product.items);
   const cartData = useSelector((state) => state.cart.items?.cartData);
 
+  const { subtotal, total } = calculateCartTotal(
+    products,
+    cartData,
+    shippingMethod
+  );
+
   useEffect(() => {
     if (!cartData || Object.keys(cartData).length === 0) {
       navigate('/cart'); // Якщо кошик порожній, перенаправити на сторінку cart
     }
   }, [cartData, navigate]);
 
-  const subtotal = products.reduce((total, product) => {
-    if (cartData && product && cartData[product._id]) {
-      return total + product.price * cartData[product._id];
-    }
-    return total;
-  }, 0);
+  // const subtotal = products.reduce((total, product) => {
+  //   if (cartData && product && cartData[product._id]) {
+  //     return total + product.price * cartData[product._id];
+  //   }
+  //   return total;
+  // }, 0);
 
-  const shippingCost = {
-    Free: 0,
-    Express: 1500,
-    Worldwide: 3000,
-  }[shippingMethod]; // Dynamically set shipping cost based on selected method
+  // const shippingCost = {
+  //   Free: 0,
+  //   Express: 1500,
+  //   Worldwide: 3000,
+  // }[shippingMethod]; // Dynamically set shipping cost based on selected method
 
-  const total = subtotal + shippingCost; // Add shipping cost to total
+  // const total = subtotal + shippingCost; // Add shipping cost to total
 
   const handleShippingChange = (e) => {
     setMethodPayment(e.target.value); // Оновлюємо стан на значення вибраної опції
@@ -125,7 +132,7 @@ const Checkout = () => {
             .then(() => {
               localStorage.removeItem('selectedShipping');
               dispatch(getUserCart());
-              navigate('/');
+              navigate('/order-complete');
             })
             .catch((error) => {
               console.error('Order placement failed:', error);
@@ -144,14 +151,12 @@ const Checkout = () => {
   // useEffect(() => {
   //   dispatch(fetchProducts());
   // }, []);
-  useEffect(() => {
-    // Якщо продукти ще не завантажені, запитуємо їх
-    console.log('hello');
 
-    if (!products.length) {
-      dispatch(fetchProducts());
-    }
-  }, [products, dispatch]);
+  // useEffect(() => {
+  //   if (!products || products.length === 0) {
+  //     dispatch(fetchProducts());
+  //   }
+  // }, [products, dispatch]);
 
   // useEffect(() => {
   //   const fromCart = localStorage.getItem('fromCart');

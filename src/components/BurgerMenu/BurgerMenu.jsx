@@ -9,16 +9,17 @@ import { useLoginContext } from '@context/LoginContext';
 import disableScroll from 'disable-scroll';
 
 import cartIcon from './cart.svg';
-import heartIcon from '@assets/images/wishlist/heart.svg';
-import userIcon from './user-circle.svg';
+// import heartIcon from '@assets/images/wishlist/heart.svg';
+import userIcon from '@assets/icons/user-placeholder.svg';
 
 import './Mobile-nav.scss';
 import './Nav-icon.scss';
-import './Wishlist.scss';
+// import './Wishlist.scss';
 import './Cart-icon.scss';
 
 const BurgerMenu = ({ totalQuantity }) => {
   const isAuth = useSelector(selectIsAuth);
+  const userData = useSelector((state) => state.user.data);
   const { setShowLogin, isBurgerClass, toggleBurgerClass, closeMenu } =
     useLoginContext();
   const [menu, setMenu] = useState('home');
@@ -151,7 +152,7 @@ const BurgerMenu = ({ totalQuantity }) => {
               </div>
             </div>
           </Link>
-          <Link className="mobile-nav__btn" to="/wishlist" onClick={closeMenu}>
+          {/* <Link className="mobile-nav__btn" to="/wishlist" onClick={closeMenu}>
             <span className="mobile-nav__btn-text">Wishlist</span>
             <div className="mobile-nav__btn-icons">
               <div className="wishlist">
@@ -163,13 +164,17 @@ const BurgerMenu = ({ totalQuantity }) => {
                 <div className="wishlist__quantity">2</div>
               </div>
             </div>
-          </Link>
+          </Link> */}
           {isAuth ? (
-            <Link className="mobile-nav__btn" to="/profile" onClick={closeMenu}>
-              <span className="mobile-nav__btn-text">Profile</span>
+            <Link className="mobile-nav__btn" to="/account" onClick={closeMenu}>
+              <span className="mobile-nav__btn-text">Account</span>
               <div className="mobile-nav__btn-icons">
                 <div className="user">
-                  <img src={userIcon} alt="user-icon" className="user__icon" />
+                  <img
+                    src={userData?.avatarUrl || userIcon}
+                    alt="user-icon"
+                    className="user__icon user-icon"
+                  />
                 </div>
               </div>
             </Link>

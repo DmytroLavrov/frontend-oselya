@@ -1,0 +1,86 @@
+@use '../../styles/mixins';
+
+.account {
+  margin-top: 40px;
+  margin-bottom: clamp(40px, 1.786rem + 3.57vw, 80px);
+
+  &__title {
+    font-family: var(--font-account-title);
+    text-align: center;
+    margin-bottom: clamp(40px, 1.786rem + 3.57vw, 80px);
+  }
+  &__content {
+    display: flex;
+    // justify-content: space-between;
+    // gap: 7px;
+    gap: 72px + 7px;
+    font-family: var(--font-account);
+
+    @include mixins.media-md {
+      flex-direction: column;
+      gap: 40px;
+    }
+  }
+
+  &__sidebar {
+    font-family: var(--font-account);
+
+    border-radius: 8px;
+    padding: 40px 16px;
+    width: 100%;
+    max-width: 262px;
+    height: 100%;
+    // height: 498px;
+    background: #f3f5f7;
+
+    @include mixins.media-md {
+      max-width: none;
+    }
+  }
+  &__profile {
+  }
+  &__menu {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 162%;
+    color: var(--profile-li-color);
+
+    li {
+      padding-block: 8px;
+      margin-bottom: 12px;
+
+      cursor: pointer;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .active {
+      color: #141718;
+      border-bottom: 1px solid #141718;
+    }
+  }
+
+  &__main {
+    width: 100%;
+  }
+
+  &__account-details {
+    width: 100%;
+    max-width: 707px;
+  }
+
+  &__orders {
+  }
+}
+
+.account-title-primary {
+  font-family: var(--font-account);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 160%;
+  color: #000;
+
+  margin-bottom: 24px;
+}

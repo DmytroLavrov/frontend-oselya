@@ -51,14 +51,14 @@
     gap: 16px;
   }
   &__icon-link {
-    &--profile,
+    &--account,
     &--cart {
       @include mixins.media-md {
         display: none;
       }
     }
   }
-  &__profile-btn {
+  &__account-btn {
     padding: 2px 16px !important;
     width: auto !important;
 
