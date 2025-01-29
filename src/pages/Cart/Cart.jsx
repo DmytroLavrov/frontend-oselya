@@ -21,7 +21,6 @@ import './Cart.scss';
 import iconRemove from '@assets/icons/remove-icon.svg';
 import minusIcon from '@assets/icons/minus-icon.svg';
 import addIcon from '@assets/icons/add-icon.svg';
-import checkIcon from '@assets/icons/check-icon.svg';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -39,37 +38,18 @@ const Cart = () => {
     shippingMethod
   );
 
-  // products.map((product) => console.log(product._id));
-
   useEffect(() => {
     const savedShippingMethod = localStorage.getItem('selectedShipping');
     if (savedShippingMethod) {
       setShippingMethod(savedShippingMethod);
     } else {
-      setShippingMethod('Free'); // За замовчуванням безкоштовна доставка
+      setShippingMethod('Free');
       localStorage.setItem('selectedShipping', shippingMethod);
     }
 
     dispatch(fetchProducts());
     dispatch(getUserCart());
   }, []);
-
-  // const subtotal = products.reduce((total, product) => {
-  //   if (cartData && product && cartData[product._id]) {
-  //     return total + product.price * cartData[product._id];
-  //   }
-  //   return total;
-  // }, 0);
-
-  // // Визначення ціни доставки
-  // const shippingCost = {
-  //   Free: 0,
-  //   Express: 1500,
-  //   Worldwide: 3000,
-  // }[shippingMethod];
-
-  // // Загальна вартість
-  // const total = subtotal + shippingCost;
 
   const handleUpdateQuantity = (itemId, quantity) => {
     if (isAuth && quantity > 0) {
@@ -88,18 +68,14 @@ const Cart = () => {
 
   const handleShippingChange = (event) => {
     const selectedShipping = event.target.value;
-    setShippingMethod(selectedShipping); // Оновлюємо стан на значення вибраної опції
+    setShippingMethod(selectedShipping);
 
     localStorage.setItem('selectedShipping', selectedShipping);
   };
 
   const handleCheckout = () => {
-    navigate('/checkout'); // '/checkout' - шлях до сторінки оформлення замовлення
+    navigate('/checkout');
   };
-  // const handleCheckout = () => {
-  //   localStorage.setItem('fromCart', 'true');
-  //   navigate('/checkout');
-  // };
 
   const isSmallScreen = useResponsive(640);
 
@@ -116,13 +92,13 @@ const Cart = () => {
         <div className="container">
           {isCartEmpty ? (
             <div className="cart__empty">
-              <h1 className="cart__empty-title">Your cart is empty</h1>
+              <h1 className="cart__empty-title">Your cart is empty 🛒</h1>
               <p className="cart__empty-message">
                 No worries! Start adding some stylish furniture to fill up that
-                space.
+                space 😊
               </p>
               <ArrowLink href="/shop" className="cart__empty-link">
-                Shop Now
+                Shop Now 🛍️
               </ArrowLink>
             </div>
           ) : (
@@ -150,7 +126,6 @@ const Cart = () => {
                     </div>
                     <div className="cart__header-right">
                       <span>Quantity</span>
-                      {/* <span>Price</span> */}
                       <span>Subtotal</span>
                     </div>
                   </div>
@@ -216,9 +191,6 @@ const Cart = () => {
                                   <img src={addIcon} alt="add-icon" />
                                 </button>
                               </div>
-                              {/* <span className="cart__item-price" data-value="$">
-                              {product.price}
-                            </span> */}
                               <span
                                 className="cart__item-subtotal"
                                 data-value="$"

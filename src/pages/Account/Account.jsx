@@ -9,19 +9,18 @@ import { getOrdersByUser } from '@features/orders/orderSlice';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 import UpdateUserForm from '@components/UpdateUserForm/UpdateUserForm';
 import AvatarUpload from '@components/AvatarUpload/AvatarUpload';
+import Orders from '@components/Orders/Orders';
 
 import './Account.scss';
 import './Profile.scss';
 import './Account-details.scss';
-
-import userIcon from '@assets/icons/user-placeholder.svg';
 
 const Account = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  const userData = useSelector((state) => state.user.data); // Отримуємо дані користувача
+  const userData = useSelector((state) => state.user.data);
 
   const isAccountPage = location.pathname === '/account';
   const isOrdersPage = location.pathname === '/account/orders';
@@ -42,10 +41,6 @@ const Account = () => {
   };
 
   useEffect(() => {
-    dispatch(getOrdersByUser());
-  }, []);
-
-  useEffect(() => {
     if (!isAuth & !window.localStorage.getItem('token')) {
       navigate('/');
     }
@@ -60,14 +55,6 @@ const Account = () => {
           <div className="account__content">
             <aside className="account__sidebar">
               <div className="account__profile profile">
-                {/* <div className="profile__avatar">
-                  <div className="profile__avatar-hover-image"></div>
-                  <img
-                    src={userIcon}
-                    alt="avatar"
-                    className="profile__avatar-image"
-                  />
-                </div> */}
                 <AvatarUpload />
                 <div className="profile__info">
                   <h2 className="profile__login">{userData?.login || ''}</h2>
@@ -129,12 +116,7 @@ const Account = () => {
                   </div>
                 </div>
               )}
-              {isOrdersPage && (
-                <div className="account__orders">
-                  <h3>Order History</h3>
-                  {/* Тут відображення ордерів користувача */}
-                </div>
-              )}
+              {isOrdersPage && <Orders />}
             </div>
           </div>
         </div>

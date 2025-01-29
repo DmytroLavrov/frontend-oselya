@@ -16,12 +16,11 @@ import checkIcon from '@assets/icons/check-icon.svg';
 
 const OrderComplete = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   // const { orderItems } = useSelector((state) => state.order);
 
   const latestOrder = useSelector(selectLatestOrder);
-  console.log(latestOrder);
 
   // if (!latestOrder) {
   //   return <p>Loading order details...</p>;
@@ -93,7 +92,7 @@ const OrderComplete = () => {
                   Order code:
                 </span>
                 <span className="order-complete__details-value">
-                  {latestOrder?._id}
+                  {latestOrder?.date}
                 </span>
               </div>
               <div className="order-complete__details-item">
@@ -108,14 +107,6 @@ const OrderComplete = () => {
                   {formatCurrency(latestOrder?.amount)}
                 </span>
               </div>
-              {/* <div className="order-complete__details-item">
-                <span className="order-complete__details-label">
-                  Payment method:
-                </span>
-                <span className="order-complete__details-value">
-                  Credit Card
-                </span>
-              </div> */}
             </div>
             <div className="order-complete__details-footer">
               <button
