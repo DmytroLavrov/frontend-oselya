@@ -2,9 +2,7 @@
 
 .about {
   position: relative;
-  // example
   margin-top: 48px;
-  // example
 
   &__container {
     display: flex;
@@ -15,7 +13,6 @@
   }
 
   &__background {
-    // padding-bottom: 47.5%;
     background-image: url(./about.jpg);
     background-position: center center;
     background-size: cover;
@@ -23,10 +20,7 @@
     background-color: var(--about-bg);
     flex: 1;
 
-    // height: clamp(532.8px, 7.811rem + 28.32vw, 850px);
-
     @include mixins.media-lg {
-      // height: clamp(290px, 7.898rem + 51.14vw, 650px);
       height: clamp(240px, 3.352rem + 58.24vw, 650px);
       flex: auto;
     }
@@ -36,8 +30,7 @@
     display: grid;
     gap: 24px;
     padding: 98.5px 0;
-    // max-width: 560px;
-    // max-width: 452px;
+
     width: 50%;
 
     padding-left: 72px;

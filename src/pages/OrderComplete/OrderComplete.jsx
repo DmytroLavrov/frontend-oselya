@@ -12,7 +12,7 @@ import formatCurrency from '@utils/FormatCurrency';
 
 import './OrderComplete.scss';
 
-import checkIcon from '@assets/icons/check-icon.svg';
+import checkIcon from '@assets/icons/actions/check-icon.svg';
 
 const OrderComplete = () => {
   const navigate = useNavigate();

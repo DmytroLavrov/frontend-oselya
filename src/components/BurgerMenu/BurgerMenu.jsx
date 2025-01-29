@@ -4,13 +4,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
 
-import { useLoginContext } from '@context/LoginContext';
+import { useUIContext } from '@context/UIContext';
 
 import disableScroll from 'disable-scroll';
 
-import cartIcon from './cart.svg';
-// import heartIcon from '@assets/images/wishlist/heart.svg';
-import userIcon from '@assets/icons/user-placeholder.svg';
+import cartIcon from '@assets/icons/cart/cart-icon.svg';
+// import heartIcon from '@assets/icons/wishlist/heart.svg';
+import userIcon from '@assets/icons/profile/user-placeholder.svg';
+import { menuMap } from '@assets/assets';
 
 import './Mobile-nav.scss';
 import './Nav-icon.scss';
@@ -21,7 +22,8 @@ const BurgerMenu = ({ totalQuantity }) => {
   const isAuth = useSelector(selectIsAuth);
   const userData = useSelector((state) => state.user.data);
   const { setShowLogin, isBurgerClass, toggleBurgerClass, closeMenu } =
-    useLoginContext();
+    useUIContext();
+
   const [menu, setMenu] = useState('home');
   const location = useLocation();
 
@@ -47,17 +49,10 @@ const BurgerMenu = ({ totalQuantity }) => {
   }, [isBurgerClass]);
 
   useEffect(() => {
-    if (location.pathname.includes('/product')) {
-      setMenu('product');
-    } else if (location.pathname === '/shop') {
-      setMenu('shop');
-    } else if (location.pathname === '/contact-us') {
-      setMenu('contact-us');
-    } else if (location.pathname === '/') {
-      setMenu('home');
-    } else {
-      setMenu('none'); // Для випадків 404 або невизначених шляхів
-    }
+    const currentMenu = Object.keys(menuMap).find((path) =>
+      location.pathname.includes(path)
+    );
+    setMenu(currentMenu ? menuMap[currentMenu] : 'none');
   }, [location]);
 
   return (
@@ -74,49 +69,24 @@ const BurgerMenu = ({ totalQuantity }) => {
       </button>
 
       <div className={`mobile-nav ${isBurgerClass ? 'mobile-nav--open' : ''}`}>
-        {/* <ul className="mobile-nav__list">
-            {['Home', 'Shop', 'Product', 'Contact Us'].map((item, index) => (
-              <li key={index} className="mobile-nav__item">
-                <Link
-                  className="nav__link"
-                  to={
-                    item === 'Home'
-                      ? '/'
-                      : item === 'Product'
-                      ? '/shop/product'
-                      : `/${item.toLowerCase().replace(' ', '-')}`
-                  }
-                  onClick={closeMenu}
-                >
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul> */}
         <ul className="mobile-nav__list">
-          <li className="mobile-nav__item">
-            <Link
-              className={`nav__link${menu === 'home' ? ' active' : ''}`}
-              to="/"
-              onClick={closeMenu}
-            >
+          <li className={`mobile-nav__item${menu === 'home' ? ' active' : ''}`}>
+            <Link className="nav__link" to="/" onClick={closeMenu}>
               Home
             </Link>
           </li>
 
-          <li className="mobile-nav__item">
-            <Link
-              className={`nav__link${menu === 'shop' ? ' active' : ''}`}
-              to="/shop"
-              onClick={closeMenu}
-            >
+          <li className={`mobile-nav__item${menu === 'shop' ? ' active' : ''}`}>
+            <Link className="nav__link" to="/shop" onClick={closeMenu}>
               Shop
             </Link>
           </li>
 
-          <li className="mobile-nav__item">
+          <li
+            className={`mobile-nav__item${menu === 'product' ? ' active' : ''}`}
+          >
             <Link
-              className={`nav__link${menu === 'product' ? ' active' : ''}`}
+              className="nav__link"
               to={
                 localStorage.getItem('lastProduct')
                   ? `/product/${localStorage.getItem('lastProduct')}`
@@ -128,18 +98,30 @@ const BurgerMenu = ({ totalQuantity }) => {
             </Link>
           </li>
 
-          <li className="mobile-nav__item">
-            <Link
-              className={`nav__link${menu === 'contact-us' ? ' active' : ''}`}
-              to="/contact-us"
-              onClick={closeMenu}
-            >
+          <li
+            className={`mobile-nav__item${
+              menu === 'contact-us' ? ' active' : ''
+            }`}
+          >
+            <Link className="nav__link" to="/contact-us" onClick={closeMenu}>
               Contact Us
             </Link>
           </li>
         </ul>
         <div className="mobile-nav__buttons">
-          <Link className="mobile-nav__btn" to="/cart" onClick={closeMenu}>
+          <Link
+            className="mobile-nav__btn"
+            to={isAuth ? '/cart' : '#'}
+            onClick={(e) => {
+              if (!isAuth) {
+                e.preventDefault();
+                setShowLogin(true);
+                closeMenu();
+              } else {
+                closeMenu();
+              }
+            }}
+          >
             <span className="mobile-nav__btn-text">Cart</span>
             <div className="mobile-nav__btn-icons">
               <div className="cart-icon">

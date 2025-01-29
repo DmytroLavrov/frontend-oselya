@@ -32,21 +32,27 @@
   width: 100%;
   row-gap: 16px;
   font-size: 28px;
-
-  & .active {
-    opacity: 0.5;
-  }
 }
 
 .mobile-nav__item {
   width: 100%;
-  padding-bottom: 15px;
+  // padding-bottom: 15px;
 
   font-family: var(--font-third);
   font-weight: 500;
   font-size: 14px;
   line-height: 171%;
   border-bottom: 1px solid #e8ecef;
+
+  &.active {
+    border-bottom: 1px solid #1e1e1e;
+  }
+
+  a {
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 15px;
+  }
 }
 
 .mobile-nav__buttons {
@@ -77,15 +83,9 @@
   letter-spacing: -0.02em;
   color: #6c7275;
 }
-// .mobile-nav__cart-icons {
-// }
 
 .mobile-nav__btn .cart {
   @include mixins.media-md {
     display: flex !important;
   }
-}
-
-.nav__link.active {
-  color: var(--text-color);
 }

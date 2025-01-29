@@ -1,19 +1,36 @@
 import { useState, useEffect } from 'react';
 
-export const useResponsive = (breakpoint = 640) => {
-  const [isSmallScreen, setIsSmallScreen] = useState(
-    window.innerWidth <= breakpoint
-  );
+export const useResponsive = (breakpoint = 640, operator = '<=') => {
+  const [isMatchingScreenSize, setIsMatchingScreenSize] = useState(false);
+
+  const checkSize = () => {
+    switch (operator) {
+      case '<':
+        return window.innerWidth < breakpoint;
+      case '<=':
+        return window.innerWidth <= breakpoint;
+      case '>':
+        return window.innerWidth > breakpoint;
+      case '>=':
+        return window.innerWidth >= breakpoint;
+      case '==':
+        return window.innerWidth === breakpoint;
+      default:
+        return window.innerWidth <= breakpoint; // Default behavior (<=)
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= breakpoint);
+      setIsMatchingScreenSize(checkSize());
     };
 
     window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, [breakpoint]);
+    setIsMatchingScreenSize(checkSize());
 
-  return isSmallScreen;
+    return () => window.removeEventListener('resize', handleResize);
+  }, [breakpoint, operator]);
+
+  return isMatchingScreenSize;
 };

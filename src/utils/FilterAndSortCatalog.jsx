@@ -32,10 +32,10 @@ export const sortProducts = (products, sorterValue) => {
 
   const sorted = [...products];
   switch (sorterValue) {
-    case 'newest': // сортування по даті
-      return sorted.sort((a, b) => b.date - a.date); // припускаючи, що date є в мілісекундах
+    case 'newest':
+      return sorted.sort((a, b) => b.date - a.date);
     case 'oldest':
-      return sorted.sort((a, b) => a.date - b.date); // сортуємо за зростанням дати
+      return sorted.sort((a, b) => a.date - b.date);
     // case 'bestRating':
     //   return sorted.sort((a, b) => b.ratingValue - a.ratingValue);
     // case 'worstRating':

@@ -3,18 +3,13 @@ import axios from 'axios';
 
 import { backendUrl } from '../../App';
 
-// Асинхронні дії для реєстрації та входу
 export const signUp = createAsyncThunk('user/signUp', async (userData) => {
-  // console.log('Sending sign up request with data:', userData);
   const { data } = await axios.post(backendUrl + '/auth/register', userData);
-  // console.log('Response received:', data);
   return data;
 });
 
 export const signIn = createAsyncThunk('user/signIn', async (userData) => {
-  // console.log('Sending sign in request with data:', userData);
   const { data } = await axios.post(backendUrl + '/auth/login', userData);
-  // console.log('Response received:', data);
   return data;
 });
 
@@ -28,12 +23,9 @@ export const getMe = createAsyncThunk('user/getMe', async () => {
 
   const { data } = await axios.get(backendUrl + '/auth/me', {
     headers: {
-      // Authorization: `Bearer ${token}`,
       Authorization: token,
     },
   });
-
-  // console.log(data);
 
   return data;
 });

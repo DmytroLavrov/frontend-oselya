@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '@features/products/productSlice';
 
-// import products from '@backend/products.json';
-
 import ArrowLink from '@components/ArrowLink/ArrowLink';
 import ProductCard from '@components/ProductCard/ProductCard';
 
@@ -22,7 +20,7 @@ import './Arrivals.scss';
 
 const Arrivals = () => {
   const dispatch = useDispatch();
-  const { loading, items, error } = useSelector((state) => state.product);
+  const { items } = useSelector((state) => state.product);
   const [spaceBetween, setSpaceBetween] = useState(24);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -44,8 +42,6 @@ const Arrivals = () => {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // const limitedProducts = items.sort((a, b) => b.id - a.id).slice(0, 6);
 
   const limitedProducts = [...items]
     .sort((a, b) => b._id.toString().localeCompare(a._id.toString()))
@@ -71,8 +67,6 @@ const Arrivals = () => {
               hide: false,
               draggable: true,
             }}
-            // onSwiper={(swiper) => console.log(swiper)}
-            // onSlideChange={() => console.log('slide change')}
           >
             {limitedProducts.map((product) => (
               <SwiperSlide key={product._id}>

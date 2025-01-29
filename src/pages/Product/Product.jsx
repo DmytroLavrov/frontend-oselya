@@ -6,11 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
 import { addToCart } from '@features/cart/cartSlice';
 
-import { useLoginContext } from '@context/LoginContext';
+import { useUIContext } from '@context/UIContext';
 
 import axios from 'axios';
 
-// import products from '@backend/products.json';
 import { backendUrl } from '../../App';
 
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
@@ -18,17 +17,18 @@ import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 import renderStars from '@utils/RenderStars';
 import formatCurrency from '@utils/FormatCurrency';
 
-import heartIcon from '@assets/images/wishlist/heart.svg';
-import minusIcon from '@assets/icons/minus-icon.svg';
-import addIcon from '@assets/icons/add-icon.svg';
+import heartIcon from '@assets/icons/wishlist/heart.svg';
+import minusIcon from '@assets/icons/quantity-controls/minus-icon.svg';
+import addIcon from '@assets/icons/quantity-controls/add-icon.svg';
 
 import './Product.scss';
 
 const Product = () => {
-  const { setShowLogin } = useLoginContext();
+  const { setShowLogin } = useUIContext();
 
   const [productCount, setProductCount] = useState(1);
 
+  const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
 
   const { id } = useParams();
@@ -36,22 +36,12 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // add product to cart
-  const dispatch = useDispatch();
-  // const isAuth = useSelector(selectIsAuth);
-
   const handleAddToCart = async (itemId) => {
     if (product) {
-      // або з Redux
-
       dispatch(
         addToCart({
-          // userId: '678e4b57b54c3b135f2705e4',
           itemId,
           quantity: productCount,
-          // name: product.name,
-          // price: product.price,
-          // quantity: 1,
         })
       );
     }
@@ -126,7 +116,7 @@ const Product = () => {
                         ? 'No rating available'
                         : product.ratingValue !== null
                         ? renderStars(product.ratingValue)
-                        : 'No rating available'}
+                        : 'No rating'}
                     </div>
                     <div className="product__reviews">
                       {product.ratingCount} review
@@ -153,7 +143,6 @@ const Product = () => {
                       >
                         <img src={minusIcon} alt="minus-icon" />
                       </button>
-                      {/* <span className="product__count">99</span> */}
                       <input
                         type="number"
                         value={productCount}

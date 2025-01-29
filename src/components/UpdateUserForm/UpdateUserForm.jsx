@@ -1,6 +1,8 @@
 import { useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '@features/users/userSlice';
+
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
@@ -42,11 +44,6 @@ const UpdateUserForm = () => {
 
     return valid;
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(updateUser({ id: userData._id, ...formData }));
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();

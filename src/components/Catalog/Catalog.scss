@@ -22,11 +22,6 @@
   &__products {
     margin-bottom: clamp(32px, 1.143rem + 4.29vw, 80px);
 
-    // display: flex;
-    // justify-content: space-between;
-    // flex-wrap: wrap;
-    // gap: 24px;
-
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     // 768px
@@ -42,12 +37,12 @@
     }
 
     &.empty {
-      grid-template-columns: 1fr; // Make it a single column for the empty state
+      grid-template-columns: 1fr;
       justify-items: center;
       align-items: center;
       text-align: center;
       padding: 20px;
-      min-height: 200px; // To give some height when empty
+      min-height: 200px;
     }
   }
   &__button {
@@ -76,7 +71,6 @@
     border-radius: 10px;
   }
 
-  &__empty p {
-    // margin: 0;
+  &__empty {
   }
 }

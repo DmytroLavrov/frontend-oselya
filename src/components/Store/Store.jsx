@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '@features/products/productSlice';
 
 import { useShopContext } from '@context/StoreContext';
+import { useUIContext } from '@context/UIContext';
 
 import { filterProducts } from '@utils/FilterAndSortCatalog';
-
-// import products from '@backend/products.json';
 
 import FilterCatalog from '@components/FilterCatalog/FilterCatalog';
 import Catalog from '@components/Catalog/Catalog';
@@ -16,16 +15,30 @@ import './Store.scss';
 
 const Store = () => {
   const dispatch = useDispatch();
-  const { loading, items, error } = useSelector((state) => state.product);
+  const { items } = useSelector((state) => state.product);
 
   const { selectedCategory, selectedPriceRange, categories } = useShopContext();
+  const { search, setSearch } = useUIContext();
+  console.log(search);
 
   const selectedCategoryLabel = () =>
     categories.find((category) => category.id === selectedCategory)?.label ||
     'All Rooms';
 
-  const filteredProducts = () =>
-    filterProducts(items, selectedCategory, selectedPriceRange);
+  // const filteredProducts = () =>
+  //   filterProducts(items, selectedCategory, selectedPriceRange);
+
+  const filteredProducts = () => {
+    const filtered = filterProducts(
+      items,
+      selectedCategory,
+      selectedPriceRange
+    );
+    // Filter products by search query
+    return filtered.filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase())
+    );
+  };
 
   useEffect(() => {
     dispatch(fetchProducts());

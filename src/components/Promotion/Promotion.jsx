@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+
 import ArrowLink from '@components/ArrowLink/ArrowLink';
+
 import './Promotion.scss';
 
 const Promotion = () => {

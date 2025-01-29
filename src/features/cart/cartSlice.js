@@ -8,16 +8,11 @@ export const addToCart = createAsyncThunk(
   async (productData) => {
     const token = localStorage.getItem('token');
 
-    // console.log(token);
-
     const { data } = await axios.post(backendUrl + '/cart/add', productData, {
       headers: {
-        // Authorization: `Bearer ${token}`,
         Authorization: token,
       },
     });
-
-    // console.log(data);
 
     return data;
   }
@@ -25,11 +20,6 @@ export const addToCart = createAsyncThunk(
 
 export const getUserCart = createAsyncThunk('cart/getUserCart', async () => {
   const token = localStorage.getItem('token');
-
-  // if (!token) {
-  //   console.error('Token is missing!');
-  //   return;
-  // }
 
   const { data } = await axios.get(backendUrl + '/cart/get', {
     headers: {
@@ -64,33 +54,15 @@ export const removeFromCart = createAsyncThunk(
   async (productData) => {
     const token = localStorage.getItem('token');
 
-    // if (!token) {
-    //   console.error('No token found');
-    // }
-
-    // console.log(token);
-
-    // const { data } = await axios.delete(
-    //   backendUrl + '/cart/delete',
-    //   productData,
-    //   {
-    //     headers: {
-    //       // Authorization: `Bearer ${token}`,
-    //       Authorization: token,
-    //     },
-    //   }
-    // );
     const { data } = await axios.post(
       backendUrl + '/cart/delete',
       productData,
       {
         headers: {
-          // Authorization: `Bearer ${token}`,
           Authorization: token,
         },
       }
     );
-    // console.log(data.cartData);
 
     return data;
   }
@@ -101,8 +73,6 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     status: 'loading',
-    // totalQuantity: 0,
-    // totalPrice: 0,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -123,7 +93,7 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.status = 'loaded';
-        state.items = action.payload; // Оновлюємо кошик після додавання товару
+        state.items = action.payload;
       })
       .addCase(addToCart.rejected, (state) => {
         state.status = 'error';
@@ -135,7 +105,7 @@ const cartSlice = createSlice({
       })
       .addCase(updateCart.fulfilled, (state, action) => {
         state.status = 'loaded';
-        state.items = action.payload; // Оновлюємо кошик після додавання товару
+        state.items = action.payload;
       })
       .addCase(updateCart.rejected, (state) => {
         state.status = 'error';
@@ -147,8 +117,6 @@ const cartSlice = createSlice({
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.status = 'loaded';
         state.items = action.payload;
-        // console.log(action.payload);
-
         // localStorage.getItem('token', action.payload.token);
       })
       .addCase(removeFromCart.rejected, (state) => {

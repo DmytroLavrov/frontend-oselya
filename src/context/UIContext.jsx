@@ -1,12 +1,14 @@
 import { createContext, useState, useContext } from 'react';
 
-const LoginContext = createContext();
+const UIContext = createContext();
 
-export const useLoginContext = () => useContext(LoginContext);
+export const useUIContext = () => useContext(UIContext);
 
-export const LoginProvider = ({ children }) => {
+export const UIProvider = ({ children }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [isBurgerClass, setIsBurgerClass] = useState(false);
+  const [search, setSearch] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
 
   const toggleBurgerClass = () => {
     setIsBurgerClass((prevState) => !prevState);
@@ -16,16 +18,20 @@ export const LoginProvider = ({ children }) => {
   };
 
   return (
-    <LoginContext.Provider
+    <UIContext.Provider
       value={{
         showLogin,
         setShowLogin,
         isBurgerClass,
         toggleBurgerClass,
         closeMenu,
+        search,
+        setSearch,
+        showSearch,
+        setShowSearch,
       }}
     >
       {children}
-    </LoginContext.Provider>
+    </UIContext.Provider>
   );
 };

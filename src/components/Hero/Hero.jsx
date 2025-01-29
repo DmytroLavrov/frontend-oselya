@@ -1,5 +1,5 @@
 // import Swiper core and required modules
-import { Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -8,8 +8,8 @@ import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 
-import ArrowLeft from '@assets/icons/arrow-left.svg?react';
-import ArrowRight from '@assets/icons/arrow-right.svg?react';
+import ArrowLeft from '@assets/icons/arrows/arrow-left.svg?react';
+import ArrowRight from '@assets/icons/arrows/arrow-right.svg?react';
 
 import './Hero.scss';
 
@@ -20,7 +20,7 @@ const Hero = () => {
         <div className="hero__slider">
           <Swiper
             // install Swiper modules
-            modules={[Navigation, Pagination]}
+            modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={30}
             slidesPerView={1}
             navigation={{
@@ -28,8 +28,11 @@ const Hero = () => {
               prevEl: '.swiper-button-prev',
             }}
             pagination={{ clickable: true }}
-            // onSwiper={(swiper) => console.log(swiper)}
-            // onSlideChange={() => console.log('slide change')}
+            loop={true}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
           >
             <SwiperSlide>
               <div className="hero__image" />
