@@ -6,16 +6,14 @@
   right: 0;
   bottom: 0;
   z-index: 9999;
-  // width: 100%;
-  // height: 100%;
+
   background-color: rgba(0, 0, 0, 0.32);
 
   height: 100vh;
   width: 100vw;
-  display: flex; /* Use flexbox to center the modal */
-  justify-content: center; /* Horizontal centering */
-  align-items: center; /* Vertical centering */
-  // display: grid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &__container {
     place-self: center;
@@ -64,15 +62,9 @@
   &__content {
     font-family: var(--font-popup);
   }
-  &__form {
-    // margin-bottom: 32px;
-  }
+
   &__field {
     margin-bottom: 32px;
-
-    // &:last-of-type {
-    //   margin-bottom: 0;
-    // }
   }
   &__input {
     font-weight: 400;
@@ -83,7 +75,5 @@
     width: 100%;
 
     border-bottom: 1px solid #e8ecef;
-  }
-  &__submit-btn {
   }
 }

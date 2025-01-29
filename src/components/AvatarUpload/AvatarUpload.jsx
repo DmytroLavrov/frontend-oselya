@@ -1,11 +1,12 @@
 import { useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAvatar } from '@features/users/userSlice';
 
-import userIcon from '@assets/icons/user-placeholder.svg';
-import acceptIcon from '@assets/icons/check-icon.svg';
-import cancelIcon from '@assets/icons/cancel-icon.svg';
-import avatarEdit from '@assets/icons/avatar-edit.svg';
+import userIcon from '@assets/icons/profile/user-placeholder.svg';
+import acceptIcon from '@assets/icons/actions/check-icon.svg';
+import cancelIcon from '@assets/icons/actions/cancel-icon.svg';
+import avatarEdit from '@assets/icons/profile/avatar-edit.svg';
 
 import './AvatarUpload.scss';
 
@@ -14,8 +15,8 @@ const AvatarUpload = () => {
   const userData = useSelector((state) => state.user.data);
 
   const [avatar, setAvatar] = useState(null);
-  const [preview, setPreview] = useState(null); // Для попереднього перегляду
-  const [isEditing, setIsEditing] = useState(false); // Відстежуємо стан редагування
+  const [preview, setPreview] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleAvatarChange = (e) => {
     const selectedAvatar = e.target.files[0];
@@ -23,7 +24,7 @@ const AvatarUpload = () => {
       const previewUrl = URL.createObjectURL(selectedAvatar);
       setAvatar(selectedAvatar);
       setPreview(previewUrl);
-      setIsEditing(true); // Увімкнення режиму редагування
+      setIsEditing(true);
     }
   };
 
@@ -33,18 +34,18 @@ const AvatarUpload = () => {
       formData.append('image', avatar);
       formData.append('userId', userData._id);
       dispatch(updateAvatar({ formData, userId: userData._id }));
-      resetState(); // Скидання після успішного завантаження
+      resetState();
     }
   };
 
   const handleCancelPreview = () => {
-    resetState(); // Скидання стану до початкового
+    resetState();
   };
 
   const resetState = () => {
     setAvatar(null);
     setPreview(null);
-    setIsEditing(false); // Вимкнення режиму редагування
+    setIsEditing(false);
   };
 
   return (
@@ -71,7 +72,6 @@ const AvatarUpload = () => {
 
       {isEditing && (
         <div className="avatar__actions">
-          {/* Кнопка завантаження аватара */}
           <button
             className="avatar__btn avatar__btn--accept"
             onClick={handleUploadAvatar}
@@ -79,7 +79,6 @@ const AvatarUpload = () => {
             <img src={acceptIcon} alt="upload-icon" />
           </button>
 
-          {/* Кнопка скасування попереднього перегляду */}
           <button
             onClick={handleCancelPreview}
             className="avatar__btn avatar__btn--cancel"

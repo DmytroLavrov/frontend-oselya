@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,25 +18,25 @@ import { calculateCartTotal } from '@utils/CartUtils';
 
 import './Cart.scss';
 
-import iconRemove from '@assets/icons/remove-icon.svg';
-import minusIcon from '@assets/icons/minus-icon.svg';
-import addIcon from '@assets/icons/add-icon.svg';
+import iconRemove from '@assets/icons/actions/remove-icon.svg';
+import minusIcon from '@assets/icons/quantity-controls/minus-icon.svg';
+import addIcon from '@assets/icons/quantity-controls/add-icon.svg';
 
 const Cart = () => {
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
-  const [shippingMethod, setShippingMethod] = useState('Free');
+  const [shippingMethod, setShippingMethod] = useState(() => {
+    return localStorage.getItem('selectedShipping') || 'Free';
+  });
   const products = useSelector((state) => state.product.items);
   const cartData = useSelector((state) => state.cart.items?.cartData);
-  const isCartEmpty =
-    products.length === 0 || (cartData && Object.keys(cartData).length === 0);
 
-  const { subtotal, total } = calculateCartTotal(
-    products,
-    cartData,
-    shippingMethod
-  );
+  const isCartEmpty = !cartData || Object.keys(cartData).length === 0;
+
+  const { subtotal, total } = useMemo(() => {
+    return calculateCartTotal(products, cartData, shippingMethod);
+  }, [products, cartData, shippingMethod]);
 
   useEffect(() => {
     const savedShippingMethod = localStorage.getItem('selectedShipping');
@@ -61,9 +61,6 @@ const Cart = () => {
     if (isAuth) {
       dispatch(removeFromCart({ itemId }));
     }
-
-    dispatch(fetchProducts());
-    dispatch(getUserCart());
   };
 
   const handleShippingChange = (event) => {
@@ -80,10 +77,10 @@ const Cart = () => {
   const isSmallScreen = useResponsive(640);
 
   useEffect(() => {
-    if (!isAuth & !window.localStorage.getItem('token')) {
+    if (!isAuth && !window.localStorage.getItem('token')) {
       navigate('/');
     }
-  }, []);
+  }, [isAuth, navigate]);
 
   return (
     <>

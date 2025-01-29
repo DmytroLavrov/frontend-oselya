@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
 
-import Logo from './logo.svg';
-import instagramIcon from './instagram.svg';
-import facebookIcon from './facebook.svg';
-import youtubeIcon from './youtube.svg';
+import Logo from '@assets/socials/logo.svg';
+import instagramIcon from '@assets/socials/instagram.svg';
+import facebookIcon from '@assets/socials/facebook.svg';
+import youtubeIcon from '@assets/socials/youtube.svg';
 
 import './Footer.scss';
 
+const adminUrl = import.meta.env.VITE_ADMIN_URL;
+
 const Footer = () => {
+  const socialLinks = [
+    { href: '/contact-us', icon: instagramIcon, alt: 'Instagram' },
+    { href: '/contact-us', icon: facebookIcon, alt: 'Facebook' },
+    { href: '/contact-us', icon: youtubeIcon, alt: 'YouTube' },
+  ];
+
   return (
     <footer className="footer">
       <div className="footer__container container">
@@ -49,6 +57,9 @@ const Footer = () => {
             <div className="footer__links">
               <Link to="/contact-us">Privacy Policy</Link>
               <Link to="/contact-us">Terms of Use</Link>
+              <a href={adminUrl} target="_blank" rel="noopener noreferrer">
+                Admin Panel
+              </a>
             </div>
             {/* <div className="footer__language">
               <span>Language: </span>
@@ -58,11 +69,7 @@ const Footer = () => {
             </div> */}
           </div>
           <div className="footer__socials">
-            {[
-              { href: '/contact-us', icon: instagramIcon, alt: 'Instagram' },
-              { href: '/contact-us', icon: facebookIcon, alt: 'Facebook' },
-              { href: '/contact-us', icon: youtubeIcon, alt: 'YouTube' },
-            ].map(({ href, icon, alt }, index) => (
+            {socialLinks.map(({ href, icon, alt }, index) => (
               <Link
                 key={index}
                 to={href}

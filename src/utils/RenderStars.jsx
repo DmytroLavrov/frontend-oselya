@@ -1,4 +1,4 @@
-import starIcon from '@assets/images/rating/star.svg';
+import starIcon from '@assets/icons/rating/star.svg';
 
 const renderStars = (ratingValue) => {
   // const fullStars = Math.max(0, Math.min(5, Math.round(ratingValue)));

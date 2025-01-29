@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import ArrowRight from '@assets/icons/arrow-right.svg?react';
+import ArrowRight from '@assets/icons/arrows/arrow-right.svg?react';
 
 import './ArrowLink.scss';
 

@@ -37,8 +37,6 @@ const orderSlice = createSlice({
     orderItems: [],
     latestOrder: null, // Зберігаємо останнє замовлення
     status: 'loading',
-    // totalQuantity: 0,
-    // totalPrice: 0,
   },
   reducers: {},
   extraReducers: (builder) => {

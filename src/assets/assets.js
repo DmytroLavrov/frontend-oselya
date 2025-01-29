@@ -15,3 +15,10 @@ export const priceRanges = [
   { id: '30000-39999', label: '$300.00 - 399.99', value: '30000-39999' },
   { id: '40000-plus', label: '$400.00+', value: '40000+' },
 ];
+
+export const menuMap = {
+  '/product': 'product',
+  '/shop': 'shop',
+  '/contact-us': 'contact-us',
+  '/': 'home',
+};

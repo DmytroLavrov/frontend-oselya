@@ -1,8 +1,12 @@
 import { useState } from 'react';
+
 import { useShopContext } from '@context/StoreContext';
+
 import { useResponsive } from '@hooks/useResponsive';
 
-import filterIcon from './filter.svg';
+import filterIcon from '@assets/icons/actions/filter.svg';
+import chevronDown from '@assets/icons/arrows/chevron-down.svg';
+
 import './FilterCatalog.scss';
 import './Categories.scss';
 import './Price.scss';
@@ -15,7 +19,7 @@ const FilterCatalog = () => {
     selectedPriceRange,
     handleCategoryChange,
     handlePriceChange,
-  } = useShopContext(); // Using the new Store context
+  } = useShopContext();
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const isSmallScreen = useResponsive(640);
@@ -35,6 +39,14 @@ const FilterCatalog = () => {
       <div className="filter__header" onClick={handleHeaderClick}>
         <img src={filterIcon} alt="filter-icon" className="filter__icon" />
         <h3 className="filter__title">Filter</h3>
+        {isSmallScreen && (
+          <img
+            src={chevronDown}
+            alt="filter-icon"
+            className="filter__icon"
+            style={{ marginLeft: 'auto' }}
+          />
+        )}
       </div>
       <div
         className={`filter__options ${

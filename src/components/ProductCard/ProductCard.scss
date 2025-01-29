@@ -20,10 +20,8 @@
     &__picture {
       position: relative;
       padding-inline: 10px;
-      // DON'T DELETE
       // background-color: #f3f5f7;
       text-align: center;
-      // DON'T DELETE
 
       &::after {
         content: '';
@@ -157,7 +155,7 @@
     &:hover {
       .card__button {
         // transform: translateY(-0%);
-        transform: translateY(-170%);
+        transform: translateY(-190%);
         opacity: 1;
         pointer-events: all;
       }
@@ -166,10 +164,8 @@
     &__picture {
       position: relative;
       padding-inline: 10px;
-      // DON'T DELETE
       // background-color: #f3f5f7;
       text-align: center;
-      // DON'T DELETE
 
       &::after {
         content: '';
@@ -222,6 +218,7 @@
     &__description {
       display: grid;
       gap: 4px;
+      padding-top: 12px;
 
       // max-width: 262px;
     }

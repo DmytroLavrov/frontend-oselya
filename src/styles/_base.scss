@@ -57,16 +57,20 @@ body {
   padding: 9px 74px;
   border-radius: 8px;
   background-color: var(--btn-color);
-
   color: #fff;
   font-family: var(--font-third);
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.3px;
   line-height: 175%;
-  // transition: all 0.2s ease-in;
-
   width: 100%;
+  transition: all 0.2s ease-in;
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease-out;
+  }
 }
 
 // titles

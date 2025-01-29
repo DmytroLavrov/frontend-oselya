@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
-// import { fetchProducts } from '@features/products/productSlice';
 import { placeOrder } from '../../features/orders/orderSlice';
 import { getUserCart } from '@features/cart/cartSlice';
 
@@ -13,14 +10,14 @@ import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 
 import formatCurrency from '@utils/FormatCurrency';
 import { calculateCartTotal } from '@utils/CartUtils';
-
-// import { backendUrl } from '../../App';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 import './Checkout.scss';
 
-import checkIcon from '@assets/icons/check-icon.svg';
-import stripeLogo from './stripe-logo.png';
-import codIcon from './cod-icon.svg';
+import checkIcon from '@assets/icons/actions/check-icon.svg';
+import stripeLogo from '@assets/logos/stripe-logo.png';
+import codIcon from '@assets/logos/cod-icon.svg';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -41,11 +38,9 @@ const Checkout = () => {
   const products = useSelector((state) => state.product.items);
   const cartData = useSelector((state) => state.cart.items?.cartData);
 
-  const { subtotal, total } = calculateCartTotal(
-    products,
-    cartData,
-    shippingMethod
-  );
+  const { subtotal, total } = useMemo(() => {
+    return calculateCartTotal(products, cartData, shippingMethod);
+  }, [products, cartData, shippingMethod]);
 
   useEffect(() => {
     if (!cartData || Object.keys(cartData).length === 0) {
@@ -54,7 +49,15 @@ const Checkout = () => {
   }, [cartData, navigate]);
 
   const handleShippingChange = (e) => {
-    setMethodPayment(e.target.value);
+    const selectedMethod = e.target.value;
+
+    if (selectedMethod === 'stripe') {
+      toast.warning(
+        'Stripe payment is currently unavailable. Please choose another method.'
+      );
+    } else {
+      setMethodPayment(selectedMethod);
+    }
   };
 
   const onChangeHandler = (e) => {
@@ -88,30 +91,8 @@ const Checkout = () => {
         amount: total,
       };
 
-      // const token = localStorage.getItem('token');
-
       switch (methodPayment) {
         case 'cod':
-          // const response = await axios.post(
-          //   backendUrl + '/orders/place',
-          //   orderData,
-          //   {
-          //     headers: {
-          //       // Authorization: `Bearer ${token}`,
-          //       Authorization: token,
-          //     },
-          //   }
-          // );
-
-          // if (response.data.success) {
-          //   // cartData = {};
-          //   // cartData повинен стати пустим
-          //   localStorage.removeItem('selectedShipping');
-          //   dispatch(getUserCart());
-          //   navigate('/');
-          // } else {
-          //   console.log('error');
-          // }
           dispatch(placeOrder(orderData))
             .unwrap()
             .then(() => {
@@ -128,30 +109,14 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    if (!isAuth & !window.localStorage.getItem('token')) {
+    if (!isAuth && !window.localStorage.getItem('token')) {
       navigate('/');
     }
-  }, []);
-
-  // useEffect(() => {
-  //   dispatch(fetchProducts());
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!products || products.length === 0) {
-  //     dispatch(fetchProducts());
-  //   }
-  // }, [products, dispatch]);
-
-  // useEffect(() => {
-  //   const fromCart = localStorage.getItem('fromCart');
-  //   if (!fromCart) {
-  //     navigate('/cart'); // Перенаправити назад на cart, якщо користувач не перейшов через cart
-  //   }
-  // }, []);
+  }, [isAuth, navigate]);
 
   return (
     <>
+      <ToastContainer />
       <Breadcrumbs />
       <section className="checkout">
         <div className="container">
@@ -235,8 +200,6 @@ const Checkout = () => {
                         </label>
                         <input
                           className="checkout__input"
-                          // onChange={(e) => setName(e.target.value)}
-                          // value={name}
                           type="number"
                           id="phone"
                           placeholder="Phone number"
@@ -381,7 +344,6 @@ const Checkout = () => {
               </div>
               <button
                 type="submit"
-                // onClick={() => navigate('/orders')}
                 className="checkout__btn-submit button-primary"
               >
                 Place Order

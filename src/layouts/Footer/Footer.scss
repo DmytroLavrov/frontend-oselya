@@ -77,6 +77,12 @@
 
     a {
       color: #fefefe;
+
+      transition: opacity 0.2s ease-in;
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
   &__bottom {
@@ -104,7 +110,6 @@
     }
   }
   &__copyright {
-    // font-family: var(--font-main);
     font-weight: 400;
     font-size: 12px;
     line-height: 167%;
@@ -121,6 +126,18 @@
 
     a {
       color: #fefefe;
+
+      transition: opacity 0.2s ease-in;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    @include mixins.media-xs {
+      max-width: 192px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   }
   // &__language {
@@ -129,5 +146,13 @@
     display: flex;
     gap: 24px;
     align-items: center;
+
+    a {
+      transition: opacity 0.2s ease-in;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
   }
 }

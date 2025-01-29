@@ -1,20 +1,19 @@
-import { StrictMode, Suspense } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import store from './app/store.js';
 
-import { LoginProvider } from '@context/LoginContext';
-import Preloader from '@components/Preloader/Preloader';
+import { UIProvider } from '@context/UIContext';
 
 import './global.scss';
 import App from './App.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <LoginProvider>
+    <UIProvider>
       <Provider store={store}>
         <App />
       </Provider>
-    </LoginProvider>
+    </UIProvider>
   </StrictMode>
 );

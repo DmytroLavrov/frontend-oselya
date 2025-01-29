@@ -1,57 +1,44 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
-// import { getUserCart } from '@features/cart/cartSlice';
 
-import { useLoginContext } from '@context/LoginContext';
+import { useUIContext } from '@context/UIContext';
 
-import Logo from './logo.svg';
 import BurgerMenu from '@components/BurgerMenu/BurgerMenu';
-import searchIcon from './search.svg';
-import userIcon from '@assets/icons/user-placeholder.svg';
-import cartIcon from './cart.svg';
+
+import Logo from '@assets/logos/logo.svg';
+import searchIcon from '@assets/icons/actions/search-icon.svg';
+import userIcon from '@assets/icons/profile/user-placeholder.svg';
+import cartIcon from '@assets/icons/cart/cart-icon.svg';
+import { menuMap } from '@assets/assets';
 
 import './Header.scss';
 import './Nav.scss';
-
 import styles from './Cart.module.scss';
 
 const Header = ({ totalQuantity }) => {
-  const { setShowLogin, isBurgerClass, closeMenu } = useLoginContext();
+  const { setShowLogin, isBurgerClass, closeMenu, setShowSearch } =
+    useUIContext();
+  const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
-
-  // const dispatch = useDispatch();
-  // const cartData = useSelector((state) => state.cart.items?.cartData);
   const userData = useSelector((state) => state.user.data);
 
   const [menu, setMenu] = useState('home');
   const location = useLocation();
 
+  const handleSearchIconClick = () => {
+    setShowSearch(true);
+    navigate('/shop');
+  };
+
   useEffect(() => {
-    if (location.pathname.includes('/product')) {
-      setMenu('product');
-    } else if (location.pathname === '/shop') {
-      setMenu('shop');
-    } else if (location.pathname === '/contact-us') {
-      setMenu('contact-us');
-    } else if (location.pathname === '/') {
-      setMenu('home');
-    } else {
-      setMenu('none'); // Для випадків 404 або невизначених шляхів
-    }
+    const currentMenu = Object.keys(menuMap).find((path) =>
+      location.pathname.includes(path)
+    );
+    setMenu(currentMenu ? menuMap[currentMenu] : 'none');
   }, [location]);
-
-  // useEffect(() => {
-  //   if (isAuth) {
-  //     dispatch(getUserCart());
-  //   }
-  // }, [isAuth, dispatch]);
-
-  // const totalQuantity = cartData
-  //   ? Object.values(cartData).reduce((sum, quantity) => sum + quantity, 0)
-  //   : 0;
 
   return (
     <header className="header">
@@ -104,7 +91,10 @@ const Header = ({ totalQuantity }) => {
             </li>
           </ul>
           <div className="nav__buttons">
-            <div className="search-icon">
+            <div
+              onClick={handleSearchIconClick}
+              className="nav__icon-link search-icon"
+            >
               <img src={searchIcon} alt="search-icon" />
             </div>
 
@@ -154,7 +144,6 @@ const Header = ({ totalQuantity }) => {
               </div>
             )}
 
-            {/* <BurgerMenu setShowLogin={setShowLogin} /> */}
             <BurgerMenu totalQuantity={totalQuantity} />
           </div>
         </nav>

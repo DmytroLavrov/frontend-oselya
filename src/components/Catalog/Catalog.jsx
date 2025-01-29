@@ -1,5 +1,7 @@
 import { useState } from 'react';
+
 import { useShopContext } from '@context/StoreContext';
+
 import { sortProducts } from '@utils/FilterAndSortCatalog';
 
 import ProductCard from '@components/ProductCard/ProductCard';
@@ -10,8 +12,6 @@ import './Toolbar.scss';
 
 const Catalog = ({ products, selectedCategoryLabel }) => {
   const { visibleCount, handleShowMore } = useShopContext();
-
-  // const [sorterValue, setSorterValue] = useState('bestRating');
   const [sorterValue, setSorterValue] = useState('newest');
 
   const handleSort = (key) => {
@@ -19,6 +19,20 @@ const Catalog = ({ products, selectedCategoryLabel }) => {
   };
 
   const sortedProducts = sortProducts(products, sorterValue);
+
+  const renderProducts = () => {
+    if (products.length === 0) {
+      return (
+        <div className="catalog__empty">
+          <p>No products found in this category.</p>
+        </div>
+      );
+    }
+
+    return sortedProducts
+      .slice(0, visibleCount)
+      .map((product) => <ProductCard key={product._id} product={product} />);
+  };
 
   return (
     <div className="store__catalog catalog">
@@ -28,19 +42,13 @@ const Catalog = ({ products, selectedCategoryLabel }) => {
           <SortCatalog handleSort={handleSort} />
         </div>
       </div>
+
       <div
         className={`catalog__products${products.length === 0 ? ' empty' : ''}`}
       >
-        {sortedProducts.slice(0, visibleCount).map((product) => {
-          return <ProductCard key={product._id} product={product} />;
-        })}
-
-        {products.length === 0 && (
-          <div className="catalog__empty">
-            <p>No products found in this category.</p>
-          </div>
-        )}
+        {renderProducts()}
       </div>
+
       {products.length > visibleCount && (
         <button className="catalog__button" onClick={handleShowMore}>
           Show more

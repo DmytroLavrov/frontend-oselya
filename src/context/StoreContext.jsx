@@ -1,5 +1,6 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { categories, priceRanges } from '@assets/assets';
+import { useResponsive } from '@hooks/useResponsive';
 
 const StoreContext = createContext();
 
@@ -14,9 +15,21 @@ export const StoreProvider = ({ children }) => {
   const handlePriceChange = (priceValue) =>
     setSelectedPriceRange((prev) => (prev === priceValue ? '' : priceValue));
 
-  // Catalog state and functions
-  const [visibleCount, setVisibleCount] = useState(9);
-  const handleShowMore = () => setVisibleCount((prev) => prev + 9);
+  // Responsive state for visible count
+  const isSmallScreen = useResponsive(768);
+  const [visibleCount, setVisibleCount] = useState(isSmallScreen ? 6 : 9);
+  const [showMoreClicked, setShowMoreClicked] = useState(false);
+
+  const handleShowMore = () => {
+    setVisibleCount((prev) => prev + (isSmallScreen ? 6 : 9));
+    setShowMoreClicked(true);
+  };
+
+  useEffect(() => {
+    if (!showMoreClicked) {
+      setVisibleCount(isSmallScreen ? 6 : 9);
+    }
+  }, [isSmallScreen, showMoreClicked]);
 
   return (
     <StoreContext.Provider

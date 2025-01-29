@@ -6,8 +6,7 @@
     flex-direction: column;
     gap: 32px;
   }
-  // &__slider {
-  // }
+
   &__image {
     background-image: url(./slider01.jpg);
     background-position: center center;
@@ -26,9 +25,6 @@
     padding-bottom: 40px;
   }
   &__title {
-    // max-width: 643px;
-    // width: 100%;
-
     font-weight: 500;
     font-size: clamp(38px, 1.768rem + 3.04vw, 72px);
     line-height: 106%;

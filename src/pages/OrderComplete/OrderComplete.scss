@@ -204,5 +204,13 @@
     letter-spacing: -0.03em;
     text-align: center;
     color: #fff;
+
+    transition: all 0.2s ease-in;
+
+    &:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.1s ease-out;
+    }
   }
 }

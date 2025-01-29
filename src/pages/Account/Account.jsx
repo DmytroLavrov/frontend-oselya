@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
 import { logout } from '@features/users/userSlice';
-import { getOrdersByUser } from '@features/orders/orderSlice';
+// import { getOrdersByUser } from '@features/orders/orderSlice';
 
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 import UpdateUserForm from '@components/UpdateUserForm/UpdateUserForm';
@@ -41,7 +41,7 @@ const Account = () => {
   };
 
   useEffect(() => {
-    if (!isAuth & !window.localStorage.getItem('token')) {
+    if (!isAuth && !window.localStorage.getItem('token')) {
       navigate('/');
     }
   }, []);
