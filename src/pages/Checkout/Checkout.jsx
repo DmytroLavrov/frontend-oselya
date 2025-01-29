@@ -49,27 +49,12 @@ const Checkout = () => {
 
   useEffect(() => {
     if (!cartData || Object.keys(cartData).length === 0) {
-      navigate('/cart'); // Якщо кошик порожній, перенаправити на сторінку cart
+      navigate('/cart');
     }
   }, [cartData, navigate]);
 
-  // const subtotal = products.reduce((total, product) => {
-  //   if (cartData && product && cartData[product._id]) {
-  //     return total + product.price * cartData[product._id];
-  //   }
-  //   return total;
-  // }, 0);
-
-  // const shippingCost = {
-  //   Free: 0,
-  //   Express: 1500,
-  //   Worldwide: 3000,
-  // }[shippingMethod]; // Dynamically set shipping cost based on selected method
-
-  // const total = subtotal + shippingCost; // Add shipping cost to total
-
   const handleShippingChange = (e) => {
-    setMethodPayment(e.target.value); // Оновлюємо стан на значення вибраної опції
+    setMethodPayment(e.target.value);
   };
 
   const onChangeHandler = (e) => {

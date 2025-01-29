@@ -1,0 +1,93 @@
+@use '../../styles/mixins';
+
+.orders {
+  &__title {
+  }
+
+  &__table {
+    font-family: var(--font-orders);
+  }
+  &__header {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 45px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e8ecef;
+
+    color: var(--orders-header-color);
+  }
+  &__column {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 157%;
+  }
+  &__body {
+  }
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 45px;
+
+    padding-block: 24px;
+    border-bottom: 1px solid #e8ecef;
+
+    @include mixins.media-sm {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      padding-block: 0;
+      border-bottom: none;
+    }
+  }
+  &__cell {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 157%;
+    max-width: 160px;
+    word-break: break-word;
+
+    &::before {
+      content: attr(data-value);
+    }
+  }
+
+  &__list {
+    font-family: var(--font-orders);
+  }
+  &__item {
+    display: grid;
+    gap: 16px;
+
+    padding-block: 16px;
+    border-bottom: 1px solid #e8ecef;
+  }
+  &__label {
+    color: var(--orders-header-color);
+  }
+  &__value {
+    max-width: 160px;
+    word-break: break-word;
+
+    &::before {
+      content: attr(data-value);
+    }
+  }
+
+  &__empty {
+    font-family: var(--font-orders);
+    color: var(--orders-header-color);
+
+    &-title {
+      margin-bottom: 12px;
+      font-size: clamp(24px, 1.357rem + 0.71vw, 32px);
+      font-weight: 600;
+      color: #141718;
+    }
+    &-message {
+      font-size: clamp(16px, 0.929rem + 0.36vw, 20px);
+      margin-bottom: 16px;
+    }
+    &-link {
+      font-size: 24px;
+    }
+  }
+}
