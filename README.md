@@ -30,3 +30,9 @@ Built with a simple and intuitive UI, the Admin Panel provides a user-friendly e
 
 You can access the **Admin Panel** here: [Admin Panel Demo](https://admin-oselya.vercel.app/)
 
+### Admin Panel Credentials
+
+To log in to the **Admin Panel**, use the following credentials:
+
+- **Email address**: `admin@oselya.com`
+- **Password**: `admin12345`
