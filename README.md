@@ -17,7 +17,7 @@ Oselya is a modern online furniture store built using the **MERN** stack. The pr
 - **Frontend**: React, Redux Toolkit, Tailwind CSS, React Router
 - **Backend**: Node.js, Express, MongoDB, JWT
 - **State Management**: Redux Toolkit, Context API
-- **Deployment**: Vercel (Frontend, Admin Panel), Render (Backend)
+- **Deployment**: Vercel (Frontend, Backend and Admin Panel)
 
 ## ⚙️ Admin Panel
 
