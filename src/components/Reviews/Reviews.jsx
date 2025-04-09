@@ -82,10 +82,10 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
 
   return (
     <div className="reviews">
-      <h2>Customer Reviews</h2>
-
       {isAuth && !hasUserReviewed ? (
         <>
+          <h2>Customer Reviews</h2>
+
           <div className="reviews__rating-selector">
             <label>Your Rating:</label>
             <div className="reviews__stars">
@@ -147,6 +147,9 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
                 'Write Review'
               )}
             </button>
+          </div>
+          <div className="reviews__char-count">
+            {newReview.comment.length}/{MAX_COMMENT_LENGTH}
           </div>
         </>
       ) : isAuth && hasUserReviewed ? (
