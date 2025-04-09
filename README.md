@@ -11,7 +11,7 @@ Oselya is a modern online furniture store built using the **MERN** stack. The pr
 - 🛍️ **Viewing order history**
 - 🔑 **User registration and login**
 - ⭐ **Product reviews and ratings**
-- 🎛 **Admin panel for product management**
+- 🎛 **Admin panel for product management and order tracking**
 
 ## 🛠 Technologies
 
