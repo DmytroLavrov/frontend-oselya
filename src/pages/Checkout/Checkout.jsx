@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
-import { placeOrder } from '../../features/orders/orderSlice';
+import { placeOrder } from '@features/orders/ordersSlice';
 import { getUserCart } from '@features/cart/cartSlice';
 
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
@@ -100,8 +100,8 @@ const Checkout = () => {
               dispatch(getUserCart());
               navigate('/order-complete');
             })
-            .catch((error) => {
-              console.error('Order placement failed:', error);
+            .catch(() => {
+              toast.error('Failed to place order. Please try again.');
             });
           break;
       }

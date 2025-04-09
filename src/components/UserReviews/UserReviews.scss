@@ -1,0 +1,186 @@
+@use '../../styles/mixins';
+
+.user-reviews {
+  &__title {
+    margin-bottom: 24px;
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__item {
+    padding: 20px;
+    border: 1px solid #e8ecef;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #fff;
+
+    @include mixins.media-md {
+      align-items: flex-start;
+    }
+
+    @include mixins.media-xs {
+      padding: 10px;
+    }
+  }
+
+  &__product {
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid #e8ecef;
+    padding-bottom: 16px;
+    width: 100%;
+
+    @include mixins.media-md {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+
+  &__product-image {
+    width: 70px;
+    height: 70px;
+
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    @include mixins.media-sm {
+      width: 120px;
+    }
+  }
+
+  &__product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__product-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: #141718;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    max-height: 3em; /* 1.5 * 2 lines */
+
+    &:hover {
+      color: #6c7275;
+      text-decoration: underline;
+    }
+
+    @include mixins.media-xs {
+      font-size: 12px;
+    }
+  }
+
+  &__product-price {
+    font-size: 14px;
+    color: #141718;
+    font-weight: 500;
+
+    &::before {
+      content: '$';
+    }
+
+    @include mixins.media-xs {
+      font-size: 12px;
+    }
+  }
+
+  &__content {
+    flex: 1;
+
+    @include mixins.media-md {
+      width: 100%;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__rating {
+    display: flex;
+    gap: 2px;
+  }
+
+  &__date {
+    font-size: 12px;
+    color: #6c7275;
+  }
+
+  &__delete-icon {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__comment {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #353945;
+  }
+
+  &__empty {
+    font-family: var(--font-orders);
+    color: var(--orders-header-color);
+
+    &-title {
+      margin-bottom: 12px;
+      font-size: clamp(24px, 1.357rem + 0.71vw, 32px);
+      font-weight: 600;
+      color: #141718;
+    }
+    &-message {
+      font-size: clamp(16px, 0.929rem + 0.36vw, 20px);
+      margin-bottom: 16px;
+    }
+    &-link {
+      font-size: 24px;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { ClipLoader } from 'react-spinners';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
 import { addToCart } from '@features/cart/cartSlice';
+import { fetchProductReviews } from '@features/reviews/reviewsSlice';
 
 import { useUIContext } from '@context/UIContext';
 
@@ -13,6 +14,7 @@ import axios from 'axios';
 import { backendUrl } from '../../App';
 
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
+import Reviews from '@components/Reviews/Reviews';
 
 import renderStars from '@utils/RenderStars';
 import formatCurrency from '@utils/FormatCurrency';
@@ -30,6 +32,8 @@ const Product = () => {
 
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  const reviews = useSelector((state) => state.reviews.items);
+  const reviewStatus = useSelector((state) => state.reviews.status);
 
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -65,8 +69,9 @@ const Product = () => {
   useEffect(() => {
     if (product) {
       localStorage.setItem('lastProduct', product._id);
+      dispatch(fetchProductReviews(product._id));
     }
-  }, [product]);
+  }, [product, dispatch]);
 
   if (loading) {
     return (
@@ -192,6 +197,13 @@ const Product = () => {
                 </div>
               </div>
             </div>
+
+            <Reviews
+              productId={product._id}
+              reviews={reviews}
+              reviewStatus={reviewStatus}
+              productRating={product.ratingValue}
+            />
           </div>
         ) : null}
       </section>
