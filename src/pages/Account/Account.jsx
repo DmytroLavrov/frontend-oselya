@@ -10,6 +10,7 @@ import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 import UpdateUserForm from '@components/UpdateUserForm/UpdateUserForm';
 import AvatarUpload from '@components/AvatarUpload/AvatarUpload';
 import Orders from '@components/Orders/Orders';
+import UserReviews from '@components/UserReviews/UserReviews';
 
 import './Account.scss';
 import './Profile.scss';
@@ -24,6 +25,7 @@ const Account = () => {
 
   const isAccountPage = location.pathname === '/account';
   const isOrdersPage = location.pathname === '/account/orders';
+  const isReviewsPage = location.pathname === '/account/reviews';
   // const isWishlistPage = location.pathname === '/account/wishlist';
 
   const formatDate = (dateString) => {
@@ -74,12 +76,18 @@ const Account = () => {
                   >
                     Orders
                   </li>
+                  <li
+                    onClick={() => navigate('/account/reviews')}
+                    className={isReviewsPage ? 'active' : ''}
+                  >
+                    My Reviews
+                  </li>
                   <li onClick={handleLeave}>Log Out</li>
                 </ul>
               </nav>
             </aside>
             <div className="account__main">
-              {!isOrdersPage && isAccountPage && (
+              {!isOrdersPage && !isReviewsPage && isAccountPage && (
                 <div className="account__account-details account-details">
                   <div className="account-details__group">
                     <h3 className="account-details__title account-title-primary">
@@ -117,6 +125,7 @@ const Account = () => {
                 </div>
               )}
               {isOrdersPage && <Orders />}
+              {isReviewsPage && <UserReviews />}
             </div>
           </div>
         </div>

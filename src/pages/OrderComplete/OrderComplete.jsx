@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
-// import { getOrdersByUser } from '@features/orders/orderSlice';
-import { selectLatestOrder } from '@features/orders/orderSlice';
+import { selectLatestOrder } from '@features/orders/ordersSlice';
 
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 
@@ -16,15 +15,21 @@ import checkIcon from '@assets/icons/actions/check-icon.svg';
 
 const OrderComplete = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  // const { orderItems } = useSelector((state) => state.order);
 
   const latestOrder = useSelector(selectLatestOrder);
 
-  // if (!latestOrder) {
-  //   return <p>Loading order details...</p>;
-  // }
+  useEffect(() => {
+    if (!isAuth && !window.localStorage.getItem('token')) {
+      navigate('/');
+    } else if (!latestOrder) {
+      navigate('/');
+    }
+  }, [isAuth, latestOrder, navigate]);
+
+  if (!latestOrder) {
+    return <p>Loading order details...</p>;
+  }
 
   const formattedDate = new Date(latestOrder?.date).toLocaleDateString(
     'en-US',
@@ -34,24 +39,6 @@ const OrderComplete = () => {
       day: 'numeric',
     }
   );
-
-  // console.log(orderItems);
-
-  // useEffect(() => {
-  //   dispatch(getOrdersByUser());
-  // }, []);
-
-  useEffect(() => {
-    if (!isAuth & !window.localStorage.getItem('token')) {
-      navigate('/');
-    } else if (!latestOrder) {
-      navigate('/'); // Якщо замовлення немає, перенаправляємо на головну
-    }
-  }, [isAuth, latestOrder, navigate]);
-
-  if (!latestOrder) {
-    return <p>Loading order details...</p>; // Показуємо повідомлення, якщо немає замовлення
-  }
 
   return (
     <>

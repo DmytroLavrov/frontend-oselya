@@ -63,4 +63,4 @@ const orderSlice = createSlice({
 });
 
 export default orderSlice.reducer;
-export const selectLatestOrder = (state) => state.order.latestOrder;
+export const selectLatestOrder = (state) => state.orders.latestOrder;

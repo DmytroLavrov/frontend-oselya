@@ -10,6 +10,18 @@ export const fetchProductReviews = createAsyncThunk(
   }
 );
 
+export const fetchUserReviews = createAsyncThunk(
+  'reviews/fetchUserReviews',
+  async () => {
+    const { data } = await axios.get(`${backendUrl}/user`, {
+      headers: {
+        Authorization: window.localStorage.getItem('token'),
+      },
+    });
+    return data;
+  }
+);
+
 export const createReview = createAsyncThunk(
   'reviews/createReview',
   async ({ productId, rating, comment }) => {
@@ -42,7 +54,9 @@ const reviewsSlice = createSlice({
   name: 'reviews',
   initialState: {
     items: [],
+    userReviews: [],
     status: 'idle',
+    userReviewsStatus: 'idle',
     error: null,
     deleteStatus: 'idle',
   },
@@ -60,6 +74,17 @@ const reviewsSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
+      .addCase(fetchUserReviews.pending, (state) => {
+        state.userReviewsStatus = 'loading';
+      })
+      .addCase(fetchUserReviews.fulfilled, (state, action) => {
+        state.userReviewsStatus = 'succeeded';
+        state.userReviews = action.payload;
+      })
+      .addCase(fetchUserReviews.rejected, (state, action) => {
+        state.userReviewsStatus = 'failed';
+        state.error = action.error.message;
+      })
       .addCase(createReview.fulfilled, (state, action) => {
         state.items.unshift(action.payload);
       })
@@ -69,6 +94,9 @@ const reviewsSlice = createSlice({
       .addCase(deleteReview.fulfilled, (state, action) => {
         state.deleteStatus = 'succeeded';
         state.items = state.items.filter(
+          (review) => review._id !== action.payload.reviewId
+        );
+        state.userReviews = state.userReviews.filter(
           (review) => review._id !== action.payload.reviewId
         );
       })
