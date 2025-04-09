@@ -5,6 +5,10 @@ import { ClipLoader } from 'react-spinners';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
 import { addToCart } from '@features/cart/cartSlice';
+import {
+  fetchProductReviews,
+  createReview,
+} from '@features/reviews/reviewsSlice';
 
 import { useUIContext } from '@context/UIContext';
 
@@ -20,16 +24,22 @@ import formatCurrency from '@utils/FormatCurrency';
 import heartIcon from '@assets/icons/wishlist/heart.svg';
 import minusIcon from '@assets/icons/quantity-controls/minus-icon.svg';
 import addIcon from '@assets/icons/quantity-controls/add-icon.svg';
+import userIcon from '@assets/icons/profile/user-placeholder.svg';
 
 import './Product.scss';
+
+const MAX_COMMENT_LENGTH = 500;
 
 const Product = () => {
   const { setShowLogin } = useUIContext();
 
   const [productCount, setProductCount] = useState(1);
+  const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
 
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  const reviews = useSelector((state) => state.reviews.items);
+  const reviewStatus = useSelector((state) => state.reviews.status);
 
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -45,6 +55,24 @@ const Product = () => {
         })
       );
     }
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    if (!isAuth) {
+      setShowLogin(true);
+      return;
+    }
+
+    await dispatch(
+      createReview({
+        productId: id,
+        rating: newReview.rating,
+        comment: newReview.comment,
+      })
+    );
+
+    setNewReview({ rating: 5, comment: '' });
   };
 
   useEffect(() => {
@@ -65,8 +93,9 @@ const Product = () => {
   useEffect(() => {
     if (product) {
       localStorage.setItem('lastProduct', product._id);
+      dispatch(fetchProductReviews(product._id));
     }
-  }, [product]);
+  }, [product, dispatch]);
 
   if (loading) {
     return (
@@ -190,6 +219,101 @@ const Product = () => {
                     {product.category}
                   </span>
                 </div>
+              </div>
+            </div>
+
+            <div className="product__reviews-section">
+              <h2>Customer Reviews</h2>
+
+              {isAuth && (
+                <form
+                  onSubmit={handleSubmitReview}
+                  className="product__review-form"
+                >
+                  <div className="product__review-rating">
+                    <label>Rating:</label>
+                    <select
+                      value={newReview.rating}
+                      onChange={(e) =>
+                        setNewReview((prev) => ({
+                          ...prev,
+                          rating: Number(e.target.value),
+                        }))
+                      }
+                    >
+                      <option value="5">5 Stars</option>
+                      <option value="4">4 Stars</option>
+                      <option value="3">3 Stars</option>
+                      <option value="2">2 Stars</option>
+                      <option value="1">1 Star</option>
+                    </select>
+                  </div>
+                  <div className="product__review-comment">
+                    <label>Your Review:</label>
+                    <textarea
+                      value={newReview.comment}
+                      onChange={(e) => {
+                        const comment = e.target.value;
+                        if (comment.length <= MAX_COMMENT_LENGTH) {
+                          setNewReview((prev) => ({ ...prev, comment }));
+                        }
+                      }}
+                      required
+                      placeholder="Write your review here..."
+                      maxLength={MAX_COMMENT_LENGTH}
+                    />
+                    <div className="product__review-char-count">
+                      {newReview.comment.length}/{MAX_COMMENT_LENGTH} characters
+                    </div>
+                  </div>
+                  <button type="submit" className="product__submit-review">
+                    Submit Review
+                  </button>
+                </form>
+              )}
+
+              <div className="product__reviews-list">
+                {reviewStatus === 'loading' ? (
+                  <div className="product__reviews-loading">
+                    <ClipLoader color="#141718" size={50} />
+                  </div>
+                ) : reviews.length > 0 ? (
+                  reviews.map((review) => (
+                    <div key={review._id} className="product__review-item">
+                      <div className="product__review-avatar">
+                        <img
+                          src={review.userId?.avatarUrl || userIcon}
+                          alt={review.userId?.login || 'Anonymous'}
+                        />
+                      </div>
+                      <div className="product__review-content">
+                        <div className="product__review-header">
+                          <div className="product__review-user">
+                            {review.userId?.login || 'Anonymous'}
+                          </div>
+                          <div className="product__review-date">
+                            {new Date(review.createdAt).toLocaleDateString(
+                              'en-US',
+                              {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                              }
+                            )}
+                          </div>
+                        </div>
+                        <div className="product__review-rating">
+                          {renderStars(review.rating)}
+                        </div>
+                        <div className="product__review-comment">
+                          {review.comment}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No reviews yet. Be the first to review this product!</p>
+                )}
               </div>
             </div>
           </div>

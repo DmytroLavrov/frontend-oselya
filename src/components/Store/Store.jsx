@@ -19,14 +19,10 @@ const Store = () => {
 
   const { selectedCategory, selectedPriceRange, categories } = useShopContext();
   const { search, setSearch } = useUIContext();
-  console.log(search);
 
   const selectedCategoryLabel = () =>
     categories.find((category) => category.id === selectedCategory)?.label ||
     'All Rooms';
-
-  // const filteredProducts = () =>
-  //   filterProducts(items, selectedCategory, selectedPriceRange);
 
   const filteredProducts = () => {
     const filtered = filterProducts(
@@ -34,7 +30,6 @@ const Store = () => {
       selectedCategory,
       selectedPriceRange
     );
-    // Filter products by search query
     return filtered.filter((product) =>
       product.name.toLowerCase().includes(search.toLowerCase())
     );

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
-import { getOrdersByUser } from '@features/orders/orderSlice';
+import { getOrdersByUser } from '@features/orders/ordersSlice';
 
 import ArrowLink from '@components/ArrowLink/ArrowLink';
 
@@ -16,7 +16,7 @@ const Orders = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  const ordersData = useSelector((state) => state.order.orderItems.orders);
+  const ordersData = useSelector((state) => state.orders.orderItems.orders);
   const isSmallScreen = useResponsive(640);
 
   useEffect(() => {

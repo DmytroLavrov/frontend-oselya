@@ -12,8 +12,7 @@ export const placeOrder = createAsyncThunk(
         Authorization: token,
       },
     });
-    // return data;
-    return data.newOrder; // Повертаємо нове замовлення
+    return data.newOrder;
   }
 );
 
@@ -35,7 +34,7 @@ const orderSlice = createSlice({
   name: 'order',
   initialState: {
     orderItems: [],
-    latestOrder: null, // Зберігаємо останнє замовлення
+    latestOrder: null,
     status: 'loading',
   },
   reducers: {},
@@ -44,12 +43,8 @@ const orderSlice = createSlice({
       .addCase(placeOrder.pending, (state) => {
         state.status = 'loading';
       })
-      // .addCase(placeOrder.fulfilled, (state, action) => {
-      //   state.status = 'loaded';
-      //   state.orderItems = action.payload;
-      // })
       .addCase(placeOrder.fulfilled, (state, action) => {
-        state.latestOrder = action.payload; // Оновлюємо останнє замовлення
+        state.latestOrder = action.payload;
       })
       .addCase(placeOrder.rejected, (state) => {
         state.status = 'error';
