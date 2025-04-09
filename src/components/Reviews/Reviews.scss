@@ -116,6 +116,17 @@
     }
   }
 
+  &__already-reviewed {
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border: 1px solid #e8ecef;
+    border-radius: 8px;
+    color: #6c7275;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
   &__form {
     margin-bottom: 32px;
     padding: 24px;

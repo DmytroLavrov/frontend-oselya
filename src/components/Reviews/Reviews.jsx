@@ -29,6 +29,11 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
   const { setShowLogin } = useUIContext();
   const isMobile = useResponsive(640, '<=');
 
+  const hasUserReviewed =
+    isAuth &&
+    currentUser &&
+    reviews.some((review) => review.userId?._id === currentUser._id);
+
   useEffect(() => {
     setNewReview((prev) => ({ ...prev, rating: initialRating }));
   }, [initialRating]);
@@ -37,6 +42,10 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
     e.preventDefault();
     if (!isAuth) {
       setShowLogin(true);
+      return;
+    }
+
+    if (hasUserReviewed) {
       return;
     }
 
@@ -75,7 +84,7 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
     <div className="reviews">
       <h2>Customer Reviews</h2>
 
-      {isAuth && (
+      {isAuth && !hasUserReviewed ? (
         <>
           <div className="reviews__rating-selector">
             <label>Your Rating:</label>
@@ -140,7 +149,12 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
             </button>
           </div>
         </>
-      )}
+      ) : isAuth && hasUserReviewed ? (
+        <div className="reviews__already-reviewed">
+          You have already reviewed this product. You can only leave one review
+          per product.
+        </div>
+      ) : null}
 
       <h2>
         {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}
