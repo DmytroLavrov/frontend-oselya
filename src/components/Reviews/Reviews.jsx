@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuth } from '@features/users/userSlice';
-import { createReview } from '@features/reviews/reviewsSlice';
+import { createReview, deleteReview } from '@features/reviews/reviewsSlice';
 import { ClipLoader } from 'react-spinners';
 import { useUIContext } from '@context/UIContext';
 import renderStars from '@utils/RenderStars';
@@ -10,6 +10,7 @@ import { useResponsive } from '../../hooks/useResponsive';
 import longArrowRight from '@assets/icons/arrows/long-arrow-right.svg';
 import starIcon from '@assets/icons/rating/star.svg';
 import starEmptyIcon from '@assets/icons/rating/star-empty.svg';
+import removeIcon from '@assets/icons/actions/remove-icon.svg';
 
 import './Reviews.scss';
 
@@ -24,6 +25,7 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
   const [hoverRating, setHoverRating] = useState(0);
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  const currentUser = useSelector((state) => state.user.data);
   const { setShowLogin } = useUIContext();
   const isMobile = useResponsive(640, '<=');
 
@@ -59,6 +61,14 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
 
   const handleStarLeave = () => {
     setHoverRating(0);
+  };
+
+  const handleDeleteReview = (reviewId) => {
+    dispatch(deleteReview(reviewId));
+  };
+
+  const isOwner = (review) => {
+    return isAuth && currentUser && review.userId?._id === currentUser._id;
   };
 
   return (
@@ -166,8 +176,19 @@ const Reviews = ({ productId, reviews, reviewStatus, productRating }) => {
                     {renderStars(review.rating)}
                   </div>
                 </div>
+                {isOwner(review) && (
+                  <button
+                    className="reviews__delete-icon"
+                    onClick={() => handleDeleteReview(review._id)}
+                    aria-label="Delete review"
+                  >
+                    <img src={removeIcon} alt="Delete" />
+                  </button>
+                )}
               </div>
-              <div className="reviews__comment-text">{review.comment}</div>
+              <div className="reviews__content">
+                <div className="reviews__comment-text">{review.comment}</div>
+              </div>
             </div>
           ))
         ) : (

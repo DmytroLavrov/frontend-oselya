@@ -26,12 +26,25 @@ export const createReview = createAsyncThunk(
   }
 );
 
+export const deleteReview = createAsyncThunk(
+  'reviews/deleteReview',
+  async (reviewId) => {
+    const { data } = await axios.delete(`${backendUrl}/${reviewId}`, {
+      headers: {
+        Authorization: window.localStorage.getItem('token'),
+      },
+    });
+    return data;
+  }
+);
+
 const reviewsSlice = createSlice({
   name: 'reviews',
   initialState: {
     items: [],
     status: 'idle',
     error: null,
+    deleteStatus: 'idle',
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -49,6 +62,19 @@ const reviewsSlice = createSlice({
       })
       .addCase(createReview.fulfilled, (state, action) => {
         state.items.unshift(action.payload);
+      })
+      .addCase(deleteReview.pending, (state) => {
+        state.deleteStatus = 'loading';
+      })
+      .addCase(deleteReview.fulfilled, (state, action) => {
+        state.deleteStatus = 'succeeded';
+        state.items = state.items.filter(
+          (review) => review._id !== action.payload.reviewId
+        );
+      })
+      .addCase(deleteReview.rejected, (state, action) => {
+        state.deleteStatus = 'failed';
+        state.error = action.error.message;
       });
   },
 });
