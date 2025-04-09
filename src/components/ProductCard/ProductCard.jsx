@@ -17,7 +17,9 @@ const ProductCard = ({ product }) => {
   const isAuth = useSelector(selectIsAuth);
   const { setShowLogin } = useUIContext();
 
-  const handleAddToCart = async (itemId) => {
+  const handleAddToCart = async (itemId, e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (product) {
       dispatch(
         addToCart({
@@ -27,12 +29,32 @@ const ProductCard = ({ product }) => {
     }
   };
 
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowLogin((prev) => !prev);
+  };
+
   return (
     <article className="card" key={product._id}>
       <Link to={`/product/${product._id}`}>
         <div className="card__picture">
           <img src={product.image} alt={product.name} className="card__image" />
           <div className="card__new">New</div>
+          <div className="card__button">
+            {isAuth ? (
+              <button
+                onClick={(e) => handleAddToCart(product._id, e)}
+                className="button-primary"
+              >
+                Add to cart
+              </button>
+            ) : (
+              <button onClick={handleLoginClick} className="button-primary">
+                Add to cart
+              </button>
+            )}
+          </div>
         </div>
         <div className="card__description">
           <div className="card__rating">
@@ -48,23 +70,6 @@ const ProductCard = ({ product }) => {
           </div>
         </div>
       </Link>
-      <div className="card__button">
-        {isAuth ? (
-          <button
-            onClick={() => handleAddToCart(product._id)}
-            className="button-primary"
-          >
-            Add to cart
-          </button>
-        ) : (
-          <button
-            onClick={() => setShowLogin((prev) => !prev)}
-            className="button-primary"
-          >
-            Add to cart
-          </button>
-        )}
-      </div>
     </article>
   );
 };

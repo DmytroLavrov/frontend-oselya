@@ -5,8 +5,7 @@
     position: relative;
 
     &:hover {
-      .card__button {
-        transform: translateY(-250%);
+      .card__picture .card__button {
         opacity: 1;
         pointer-events: all;
       }
@@ -16,6 +15,7 @@
       position: relative;
       padding-inline: 10px;
       text-align: center;
+      overflow: hidden;
 
       &::after {
         content: '';
@@ -64,9 +64,8 @@
       left: clamp(12px, 0.464rem + 0.6vw, 16px);
       bottom: clamp(12px, 0.464rem + 0.6vw, 16px);
       right: clamp(12px, 0.464rem + 0.6vw, 16px);
-      transition: all 0.2s ease-in;
+      transition: all 0.3s ease-in-out;
       opacity: 0;
-      transform: translateX(0%) translateY(-200%);
       pointer-events: none;
 
       // 768px
@@ -147,8 +146,7 @@
     max-width: clamp(172.39px, 9.174rem + 8vw, 262px);
 
     &:hover {
-      .card__button {
-        transform: translateY(-250%);
+      .card__picture .card__button {
         opacity: 1;
         pointer-events: all;
       }
@@ -158,6 +156,7 @@
       position: relative;
       padding-inline: 10px;
       text-align: center;
+      overflow: hidden;
 
       &::after {
         content: '';
@@ -196,10 +195,8 @@
       left: 16px;
       bottom: 16px;
       right: 16px;
-      transition: all 0.2s ease-in;
+      transition: all 0.3s ease-in-out;
       opacity: 0;
-      transform: translateX(0%) translateY(-200%);
-
       pointer-events: none;
 
       .button-primary {
